@@ -1,0 +1,69 @@
+//
+//  PrefixHeader.pch
+//  AVIC_AppStore
+//
+//  Created by @HUI on 14-12-27.
+//  Copyright (c) 2014年 HUI. All rights reserved.
+//
+
+#ifndef AVIC_AppStore_PrefixHeader_pch
+#define AVIC_AppStore_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "MyLog.h"
+#endif
+#define SCREENWIDTH     [UIScreen mainScreen].bounds.size.width
+#define SCREENHEIGHT    [UIScreen mainScreen].bounds.size.height
+#define THEME [[NSUserDefaults standardUserDefaults]objectForKey:@"theme"]
+#define LIBPATH [NSString stringWithFormat:@"%@",[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject]]
+
+//服务器
+#define sServiceAppendContent(_URL_) [@"http://121.42.8.173:8383/zh_mam_webservice/services" stringByAppendingString:_URL_]
+
+//XMPPConfig
+#define kHostName @"192.168.1.2"
+#define kPost     5222
+#define kResource @"iOS_AVIC_AppStore"
+
+
+//storyboard VCID
+#define VCID_chatUserList     @"chatUserListVCID"
+#define VCID_login            @"loginVCID"
+#define VCID_chat             @"chatVCID"
+#define VCID_TabBarController @"tabBarCID"
+#define VCID_ChuliMsgVC       @"chuliMsgVCID"
+#define VCID_addFriendsVC     @"addFriendsVCID"
+
+#define CellID_user     @"userCellID"
+#define CellID_chuliMsg @"chuliUserCellID"
+#define CellID_gongsi   @"cellIDGongsi"
+
+#define STORYBOARDVC(_VCID_) [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:_VCID_]
+
+
+//NSUserdefault
+#define USERDEFAULT [NSUserDefaults standardUserDefaults]
+#define kUserName   @"username"
+#define kPassword   @"password"
+#define kISLogin    @"isLogin"
+
+
+//NSNotification
+#define NOTICENTER             [NSNotificationCenter defaultCenter]
+#define kNOTI_onLineSuccess    @"onLineSuccess"
+//#define kNOTI_receiveMsg     @"XMPPReceiveMsg"
+#define kNOTI_XMPPChatDismiss  @"XMPPChatDismiss"
+
+#define kChatbarBottomVHeight   200
+#define kEmojiNum               60
+
+//聊天
+#define PATH_DOC           NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0]
+#define PATH_VOICE         [PATH_DOC stringByAppendingPathComponent:@"voiceDict/"]
+#define kVOICE_Service     @""
