@@ -23,8 +23,8 @@
 //  The following is standard:
 
 #import "XMPP.h"
-#import "XMPPMessageArchivingCoreDataStorage.h"
- 
+//#import "XMPPMessageArchivingCoreDataStorage.h"
+
 // List the modules you're using here:
 // (the following may not be a complete list)
 
@@ -32,11 +32,11 @@
 // 
 //#import "XMPPCoreDataStorage.h"
 //
-#import "XMPPReconnect.h"
+//#import "XMPPReconnect.h"
 //
-#import "XMPPRoster.h"
+//#import "XMPPRoster.h"
 //#import "XMPPRosterMemoryStorage.h"
-#import "XMPPRosterCoreDataStorage.h"
+//#import "XMPPRosterCoreDataStorage.h"
 //
 //#import "XMPPJabberRPCModule.h"
 //#import "XMPPIQ+JabberRPC.h"
@@ -44,16 +44,16 @@
 //
 //#import "XMPPPrivacy.h"
 //
-#import "XMPPMUC.h"
+//#import "XMPPMUC.h"
 //#import "XMPPRoom.h"
 //#import "XMPPRoomMemoryStorage.h"
-#import "XMPPRoomCoreDataStorage.h"
+//#import "XMPPRoomCoreDataStorage.h"
 //#import "XMPPRoomHybridStorage.h"
 //
-#import "XMPPvCardTemp.h"
-#import "XMPPvCardTempModule.h"
-#import "XMPPvCardAvatarModule.h"
-#import "XMPPvCardCoreDataStorage.h"
+//#import "XMPPvCardTemp.h"
+//#import "XMPPvCardTempModule.h"
+//#import "XMPPvCardAvatarModule.h"
+//#import "XMPPvCardCoreDataStorage.h"
 //
 //#import "XMPPPubSub.h"
 //
@@ -66,8 +66,8 @@
 //
 //#import "XMPPTransports.h"
 //
-#import "XMPPCapabilities.h"
-#import "XMPPCapabilitiesCoreDataStorage.h"
+//#import "XMPPCapabilities.h"
+//#import "XMPPCapabilitiesCoreDataStorage.h"
 //
 //
 //#import "XMPPMessage+XEP_0184.h"

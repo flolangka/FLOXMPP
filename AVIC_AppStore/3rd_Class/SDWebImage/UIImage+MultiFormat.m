@@ -18,6 +18,10 @@
 @implementation UIImage (MultiFormat)
 
 + (UIImage *)sd_imageWithData:(NSData *)data {
+    if (!data) {
+        return nil;
+    }
+    
     UIImage *image;
     NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
     if ([imageContentType isEqualToString:@"image/gif"]) {
@@ -59,7 +63,7 @@
             } // else - if it's not set it remains at up
             CFRelease((CFTypeRef) properties);
         } else {
-            //MyLog(@"NO PROPERTIES, FAIL");
+            //NSLog(@"NO PROPERTIES, FAIL");
         }
         CFRelease(imageSource);
     }

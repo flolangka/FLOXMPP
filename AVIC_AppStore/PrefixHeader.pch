@@ -14,10 +14,10 @@
 
 #endif
 #ifdef __OBJC__
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
-#import "MyLog.h"
+//#import <UIKit/UIKit.h>
+//#import <Foundation/Foundation.h>
 #endif
+/*
 #define SCREENWIDTH     [UIScreen mainScreen].bounds.size.width
 #define SCREENHEIGHT    [UIScreen mainScreen].bounds.size.height
 #define THEME [[NSUserDefaults standardUserDefaults]objectForKey:@"theme"]
@@ -58,7 +58,7 @@
 #define NOTICENTER             [NSNotificationCenter defaultCenter]
 #define kNOTI_onLineSuccess    @"onLineSuccess"
 //#define kNOTI_receiveMsg     @"XMPPReceiveMsg"
-#define kNOTI_XMPPChatDismiss  @"XMPPChatDismiss"
+//#define kNOTI_XMPPChatDismiss  @"XMPPChatDismiss"
 
 #define kChatbarBottomVHeight   200
 #define kEmojiNum               60
@@ -67,3 +67,4 @@
 #define PATH_DOC           NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0]
 #define PATH_VOICE         [PATH_DOC stringByAppendingPathComponent:@"voiceDict/"]
 #define kVOICE_Service     @""
+ */

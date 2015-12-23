@@ -1,30 +1,27 @@
 {
   "images" : [
     {
-      "extent" : "full-screen",
-      "idiom" : "iphone",
-      "subtype" : "736h",
-      "filename" : "启动页面-5.png",
-      "minimum-system-version" : "8.0",
       "orientation" : "portrait",
-      "scale" : "3x"
-    },
-    {
-      "extent" : "full-screen",
       "idiom" : "iphone",
-      "subtype" : "736h",
-      "filename" : "启动页面-6.png",
+      "extent" : "full-screen",
       "minimum-system-version" : "8.0",
-      "orientation" : "landscape",
+      "subtype" : "736h",
       "scale" : "3x"
     },
     {
-      "extent" : "full-screen",
+      "orientation" : "landscape",
       "idiom" : "iphone",
+      "extent" : "full-screen",
+      "minimum-system-version" : "8.0",
+      "subtype" : "736h",
+      "scale" : "3x"
+    },
+    {
+      "orientation" : "portrait",
+      "idiom" : "iphone",
+      "extent" : "full-screen",
+      "minimum-system-version" : "8.0",
       "subtype" : "667h",
-      "filename" : "启动页面-4.png",
-      "minimum-system-version" : "8.0",
-      "orientation" : "portrait",
       "scale" : "2x"
     },
     {
@@ -32,16 +29,14 @@
       "idiom" : "iphone",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "启动页面-2.png",
       "scale" : "2x"
     },
     {
-      "extent" : "full-screen",
+      "orientation" : "portrait",
       "idiom" : "iphone",
+      "extent" : "full-screen",
+      "minimum-system-version" : "7.0",
       "subtype" : "retina4",
-      "filename" : "启动页面.png",
-      "minimum-system-version" : "7.0",
-      "orientation" : "portrait",
       "scale" : "2x"
     },
     {
@@ -76,21 +71,18 @@
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
-      "filename" : "启动页面-3.png",
       "scale" : "1x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
-      "filename" : "启动页面-1.png",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
-      "filename" : "qidongyemian@2x.png",
       "subtype" : "retina4",
       "scale" : "2x"
     },

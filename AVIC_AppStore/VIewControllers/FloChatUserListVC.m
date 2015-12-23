@@ -11,7 +11,6 @@
 #import "ZCMessageObject.h"
 #import "FloChatVC.h"
 #import "FloXMPPUser.h"
-#import "FloTabBarV.h"
 
 #define kNoNewApply @"未有新消息"
 
@@ -30,29 +29,29 @@ static BOOL nibsRegistered = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    [self configTabBar];
     
     //消除下面多余的横线
-    self.tableView.tableFooterView = [[UIView alloc] init];
+//    self.tableView.tableFooterView = [[UIView alloc] init];
+    self.title = [USERDEFAULT objectForKey:kXMPPmyJID];
     
     [NOTICENTER addObserver:self selector:@selector(refreshData:) name:kXMPPNewMsgNotifaction object:nil];
+    
+    
+    BOOL connectXMPPSuccess = [[ZCXMPPManager sharedInstance] connectLogoin:^(BOOL success) {
+        if (!success) {
+            [self goToLogin];
+        }
+    }];
+    
+    if (!connectXMPPSuccess) {
+        [self goToLogin];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self loadData];
-}
-
-- (void)configTabBar
-{
-    FloTabBarV *tabBarV = [[[NSBundle mainBundle] loadNibNamed:@"FloTabBarV" owner:nil options:nil] firstObject];
-    tabBarV.xiaoxiImageV.image = [UIImage imageNamed:@"lianxirenHL"];
-    tabBarV.xiaoxiLabel.textColor = [UIColor blueColor];
-    tabBarV.tabBarC = self.tabBarController;
-    [self.view addSubview:tabBarV];
 }
 
 - (void)loadData
@@ -65,6 +64,15 @@ static BOOL nibsRegistered = NO;
     }
     
     [_tableviewDatas addObjectsFromArray:[ZCMessageObject fetchRecentChatByPage:20]];
+    
+    //测试
+    NSMutableArray *msg = [NSMutableArray array];
+    [msg addObject:@"dxasa"];
+    [msg addObject:[NSDate date]];
+    [msg addObject:@"hkshenmin"];
+    [msg addObject:@"0"];
+    [_tableviewDatas addObject:msg];
+    
     [self.tableView reloadData];
 }
 
@@ -74,13 +82,7 @@ static BOOL nibsRegistered = NO;
 
 - (void)goToLogin
 {
-    [self.tabBarController dismissViewControllerAnimated:YES completion:nil];
-    [NOTICENTER postNotificationName:kNOTI_XMPPChatDismiss object:nil userInfo:nil];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self presentViewController:[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"loginVCID"] animated:NO completion:nil];
 }
 
 #pragma mark noti
@@ -113,7 +115,7 @@ static BOOL nibsRegistered = NO;
     
     if (indexPath.row == 0) {
         cell.userNameL.text = _tableviewDatas[0];
-        cell.iconImageV.image = [UIImage imageNamed:@"ali08"];
+        cell.iconImageV.image = [UIImage imageNamed:@"DefaultHead"];
     } else {
         [cell setContentChatHistoryUserWithArray:_tableviewDatas[indexPath.row]];
     }
@@ -131,8 +133,10 @@ static BOOL nibsRegistered = NO;
     if (indexPath.row == 0) {
         [self.navigationController pushViewController:STORYBOARDVC(VCID_ChuliMsgVC) animated:YES];
     } else {
-        FloChatVC *chatVC = STORYBOARDVC(VCID_chat);
         FloUserCell *cell = (FloUserCell *)[tableView cellForRowAtIndexPath:indexPath];
+        
+        FloChatVC *chatVC = STORYBOARDVC(VCID_chat);
+        chatVC.hidesBottomBarWhenPushed = YES;
         chatVC.chatUser = [[FloXMPPUser alloc] initWithUserName:cell.userNameL.text deptName:@"开发测试" iconURL:@"http://www.uimaker.com/uploads/allimg/120508/1_120508132202_3.png"];
         [self.navigationController pushViewController:chatVC animated:YES];
     }

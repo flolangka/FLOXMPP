@@ -19,9 +19,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.tabBar.hidden = YES;
-    /*self.tabBar.frame = CGRectMake(0, 108, SCREENWIDTH, 49);
-    self.tabBar.tintColor = [UIColor colorWithRed:9/255.0 green:138/255.0 blue:241/255.0 alpha:1.0];*/
+    self.tabBar.frame = CGRectMake(0, 108, SCREENWIDTH, 49);
+    self.tabBar.tintColor = [UIColor colorWithRed:9/255.0 green:138/255.0 blue:241/255.0 alpha:1.0];
     
     UITabBarItem *one = self.tabBar.items[0];
     one.selectedImage = [[UIImage imageNamed:@"lianxirenHL"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -31,17 +30,6 @@
     
     UITabBarItem *three = self.tabBar.items[2];
     three.selectedImage = [[UIImage imageNamed:@"qunzuHL"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    /*
-    [[ZCXMPPManager sharedInstance] connectLogoin:^(BOOL succeed) {
-        if (succeed) {
-            NSLog(@"自动上线成功");
-            
-            [NOTICENTER postNotificationName:kNOTI_onLineSuccess object:nil userInfo:nil];
-        }else{
-            NSLog(@"自动上线失败");
-        }
-    }];*/
 }
 
 - (void)didReceiveMemoryWarning {

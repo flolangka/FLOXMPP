@@ -891,9 +891,10 @@ static ZCXMPPManager *sharedManager;
 
 	
 	if (myJID == nil || myPassword == nil) {
-        UIAlertView*alert=[[UIAlertView alloc]initWithTitle:@"警告" message:@"检查是否输入了用户名密码" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
-        [alert show];
-		return NO;
+//        UIAlertView*alert=[[UIAlertView alloc]initWithTitle:@"警告" message:@"检查是否输入了用户名密码" delegate:self cancelButtonTitle:@"ok" otherButtonTitles: nil];
+//        [alert show];
+        NSLog(@"用户名或密码为空");
+        return NO;
 	}
 
     [xmppStream setMyJID:[XMPPJID jidWithUser:myJID domain:IP resource:ZIYUANMING]];
@@ -944,7 +945,7 @@ static ZCXMPPManager *sharedManager;
 }
 - (void)xmppStreamDidConnect:(XMPPStream *)sender
 {
-	NSLog(@"连接成功%@",password);
+	NSLog(@"连接成功");
 	
 	isXmppConnected = YES;
 	NSError *error = nil;
@@ -1169,7 +1170,7 @@ static ZCXMPPManager *sharedManager;
     self.subscribeArray=[NSMutableArray arrayWithCapacity:0];
     
     NSString*myjid=  [userDefaults objectForKey:kXMPPmyJID];
-    if ([userDefaults objectForKey:myjid]) {
+    if (myjid && [userDefaults objectForKey:myjid]) {
         self.yanzhengxiaoxi=[userDefaults objectForKey:myjid];
     }else{
         self.yanzhengxiaoxi=[NSMutableDictionary dictionaryWithCapacity:0];
