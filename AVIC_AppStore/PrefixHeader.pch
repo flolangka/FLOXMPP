@@ -14,8 +14,9 @@
 
 #endif
 #ifdef __OBJC__
-//#import <UIKit/UIKit.h>
-//#import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <CoreGraphics/CoreGraphics.h>
 #endif
 /*
 #define SCREENWIDTH     [UIScreen mainScreen].bounds.size.width

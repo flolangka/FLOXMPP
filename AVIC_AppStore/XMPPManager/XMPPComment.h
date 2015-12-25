@@ -13,6 +13,7 @@
 #endif /* XMPPComment_h */
 
 #import "XMPPFramework.h"
+#import "MBProgressTool.h"
 
 
 static NSString * const kUserName = @"xmppUserNaem";

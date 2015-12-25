@@ -8,7 +8,6 @@
 
 #import "FLOLoginViewController.h"
 #import "FLORegistViewController.h"
-#import <MBProgressHUD.h>
 #import "XMPPManager.h"
 
 @interface FLOLoginViewController ()<UITextFieldDelegate>
@@ -28,18 +27,27 @@
     [self hideKeyboard];
     
     if (_userNameTF.text.length < 1) {
-        [self showPromptTitle:@"请输入用户名"];
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"请输入用户名"];
         return;
     }
     if (_passwordTF.text.length < 1) {
-        [self showPromptTitle:@"请输入密码"];
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"请输入密码"];
         return;
     }
     
     [[XMPPManager manager] authorizationWithUserName:_userNameTF.text password:_passwordTF.text success:^{
-        NSLog(@"登录成功");
+        //保存用户名密码，下次自动登录
+        NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
+        [UD setObject:_userNameTF.text forKey:kUserName];
+        [UD setObject:_passwordTF.text forKey:kPassWord];
+        [UD synchronize];
+        
+        //跳转到主页面
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        keyWindow.rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDTabbarController"];
+        [keyWindow makeKeyAndVisible];
     } failure:^{
-        NSLog(@"登录失败");
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"登录失败"];
     }];
 }
 
@@ -59,16 +67,13 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    if (textField == _userNameTF) {
+        [_passwordTF becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
     return YES;
 }
 
-- (void)showPromptTitle:(NSString *)title
-{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeText;
-    hud.labelText = title;
-    [hud hide:YES afterDelay:1.0];
-}
 
 @end

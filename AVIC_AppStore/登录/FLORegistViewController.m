@@ -7,8 +7,9 @@
 //
 
 #import "FLORegistViewController.h"
+#import "XMPPManager.h"
 
-@interface FLORegistViewController ()
+@interface FLORegistViewController ()<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameTF;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTF;
@@ -20,27 +21,58 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 - (IBAction)leftBarButtonAction:(UIBarButtonItem *)sender {
+    [self hideKeyboard];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)registerAction:(UIButton *)sender {
+    [self hideKeyboard];
+    
+    if (_userNameTF.text.length < 1) {
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"请输入用户名"];
+        return;
+    }
+    if (_passwordTF.text.length < 1) {
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"请输入密码"];
+        return;
+    }
+    if (_rePasswordTF.text.length < 1) {
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"请确认密码"];
+        return;
+    }
+    if (![_passwordTF.text isEqualToString:_rePasswordTF.text]) {
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"密码不一致"];
+        return;
+    }
+    
+    [[XMPPManager manager] registerWithUserName:_userNameTF.text password:_passwordTF.text success:^{
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"注册成功"];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } failure:^{
+        [MBProgressTool showPromptViewInView:self.view WithTitle:@"注册失败"];
+    }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == _userNameTF) {
+        [_passwordTF becomeFirstResponder];
+    } else if (textField == _passwordTF) {
+        [_rePasswordTF becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
+    return YES;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)hideKeyboard
+{
+    [_userNameTF resignFirstResponder];
+    [_passwordTF resignFirstResponder];
+    [_rePasswordTF resignFirstResponder];
 }
-*/
 
 @end

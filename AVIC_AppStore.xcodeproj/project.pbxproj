@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		841C6EBB1C2BBFAF00933A75 /* FLOChatListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C6EBA1C2BBFAF00933A75 /* FLOChatListTableViewController.m */; };
+		841C6EC01C2BC04900933A75 /* FLOFriendListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C6EBF1C2BC04900933A75 /* FLOFriendListTableViewController.m */; };
+		841C6EC31C2BC06300933A75 /* FLOGroupListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C6EC21C2BC06300933A75 /* FLOGroupListTableViewController.m */; };
+		841C6EC71C2BE74200933A75 /* FLOAddFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C6EC61C2BE74200933A75 /* FLOAddFriendViewController.m */; };
+		841C6ECB1C2BF36200933A75 /* FLOFriendRequestTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C6ECA1C2BF36200933A75 /* FLOFriendRequestTVC.m */; };
+		841C6ECF1C2BF38C00933A75 /* FLOFriendRequestTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C6ECE1C2BF38C00933A75 /* FLOFriendRequestTVCell.m */; };
 		841D1A1A1B9BCB8900010DC1 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 841D19F31B9BCB8900010DC1 /* GCDAsyncSocket.m */; };
 		841D1A1B1B9BCB8900010DC1 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 841D19F61B9BCB8900010DC1 /* DDAbstractDatabaseLogger.m */; };
 		841D1A1C1B9BCB8900010DC1 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 841D19F81B9BCB8900010DC1 /* DDASLLogger.m */; };
@@ -148,7 +154,12 @@
 		841D1BEE1B9BCBAE00010DC1 /* XMPPStringPrep.m in Sources */ = {isa = PBXBuildFile; fileRef = 841D1B6F1B9BCBAD00010DC1 /* XMPPStringPrep.m */; };
 		841D1BEF1B9BCBAE00010DC1 /* XMPPTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 841D1B711B9BCBAD00010DC1 /* XMPPTimer.m */; };
 		841D1BF21B9BCC6D00010DC1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841D1BF11B9BCC6D00010DC1 /* Security.framework */; };
+		843321951C2B8298008F52CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 843321941C2B8298008F52CA /* LaunchScreen.storyboard */; };
+		843321981C2B89AD008F52CA /* MBProgressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 843321971C2B89AD008F52CA /* MBProgressTool.m */; };
+		8433219B1C2B89CB008F52CA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8433219A1C2B89CB008F52CA /* MBProgressHUD.m */; };
 		8460621C1BB23E5D00FABCB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8460621B1BB23E5D00FABCB1 /* Images.xcassets */; };
+		8476A9071C2CD05F00FCB6EC /* FLOChatListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */; };
+		8476A90C1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A90B1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m */; };
 		848BB7A31BA0148200ECC11A /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 848BB7A21BA0148200ECC11A /* libiconv.dylib */; };
 		849B8A311BB0F6A1005757AE /* Expression_001@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 849B89F41BB0F6A1005757AE /* Expression_001@2x.png */; };
 		849B8A321BB0F6A1005757AE /* Expression_002@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 849B89F51BB0F6A1005757AE /* Expression_002@2x.png */; };
@@ -275,6 +286,18 @@
 
 /* Begin PBXFileReference section */
 		840325D41BFCBA6E00EFC1C9 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		841C6EB91C2BBFAF00933A75 /* FLOChatListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOChatListTableViewController.h; path = "最近联系人/FLOChatListTableViewController.h"; sourceTree = "<group>"; };
+		841C6EBA1C2BBFAF00933A75 /* FLOChatListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOChatListTableViewController.m; path = "最近联系人/FLOChatListTableViewController.m"; sourceTree = "<group>"; };
+		841C6EBE1C2BC04900933A75 /* FLOFriendListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOFriendListTableViewController.h; path = "好友/FLOFriendListTableViewController.h"; sourceTree = "<group>"; };
+		841C6EBF1C2BC04900933A75 /* FLOFriendListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOFriendListTableViewController.m; path = "好友/FLOFriendListTableViewController.m"; sourceTree = "<group>"; };
+		841C6EC11C2BC06300933A75 /* FLOGroupListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOGroupListTableViewController.h; path = "群组/FLOGroupListTableViewController.h"; sourceTree = "<group>"; };
+		841C6EC21C2BC06300933A75 /* FLOGroupListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOGroupListTableViewController.m; path = "群组/FLOGroupListTableViewController.m"; sourceTree = "<group>"; };
+		841C6EC51C2BE74200933A75 /* FLOAddFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOAddFriendViewController.h; path = "好友/FLOAddFriendViewController.h"; sourceTree = "<group>"; };
+		841C6EC61C2BE74200933A75 /* FLOAddFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOAddFriendViewController.m; path = "好友/FLOAddFriendViewController.m"; sourceTree = "<group>"; };
+		841C6EC91C2BF36200933A75 /* FLOFriendRequestTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOFriendRequestTVC.h; path = "最近联系人/FLOFriendRequestTVC.h"; sourceTree = "<group>"; };
+		841C6ECA1C2BF36200933A75 /* FLOFriendRequestTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOFriendRequestTVC.m; path = "最近联系人/FLOFriendRequestTVC.m"; sourceTree = "<group>"; };
+		841C6ECD1C2BF38C00933A75 /* FLOFriendRequestTVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOFriendRequestTVCell.h; path = "最近联系人/FLOFriendRequestTVCell.h"; sourceTree = "<group>"; };
+		841C6ECE1C2BF38C00933A75 /* FLOFriendRequestTVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOFriendRequestTVCell.m; path = "最近联系人/FLOFriendRequestTVCell.m"; sourceTree = "<group>"; };
 		841D19F21B9BCB8900010DC1 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
 		841D19F31B9BCB8900010DC1 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		841D19F51B9BCB8900010DC1 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
@@ -571,7 +594,16 @@
 		841D1B711B9BCBAD00010DC1 /* XMPPTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPTimer.m; sourceTree = "<group>"; };
 		841D1BF01B9BCBF800010DC1 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		841D1BF11B9BCC6D00010DC1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		843321941C2B8298008F52CA /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		843321961C2B89AD008F52CA /* MBProgressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressTool.h; path = MBProgressHUD/MBProgressTool.h; sourceTree = "<group>"; };
+		843321971C2B89AD008F52CA /* MBProgressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressTool.m; path = MBProgressHUD/MBProgressTool.m; sourceTree = "<group>"; };
+		843321991C2B89CB008F52CA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
+		8433219A1C2B89CB008F52CA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		8460621B1BB23E5D00FABCB1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8476A9051C2CD05F00FCB6EC /* FLOChatListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOChatListTableViewCell.h; path = "最近联系人/FLOChatListTableViewCell.h"; sourceTree = "<group>"; };
+		8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOChatListTableViewCell.m; path = "最近联系人/FLOChatListTableViewCell.m"; sourceTree = "<group>"; };
+		8476A90A1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOChatListFriendRequestTVC.h; path = "最近联系人/FLOChatListFriendRequestTVC.h"; sourceTree = "<group>"; };
+		8476A90B1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOChatListFriendRequestTVC.m; path = "最近联系人/FLOChatListFriendRequestTVC.m"; sourceTree = "<group>"; };
 		848BB7A21BA0148200ECC11A /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		849B89F41BB0F6A1005757AE /* Expression_001@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Expression_001@2x.png"; sourceTree = "<group>"; };
 		849B89F51BB0F6A1005757AE /* Expression_002@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Expression_002@2x.png"; sourceTree = "<group>"; };
@@ -649,7 +681,6 @@
 		A513AE8C1A35384500B57CFD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A513AE8D1A35384500B57CFD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A513AE931A35384500B57CFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A513AE981A35384500B57CFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		A513AE9E1A35384500B57CFD /* AVIC_AppStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AVIC_AppStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A513AEA31A35384500B57CFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A513AEA41A35384500B57CFD /* AVIC_AppStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVIC_AppStoreTests.m; sourceTree = "<group>"; };
@@ -722,7 +753,6 @@
 		A5A3C5DE1A6E51AF0092C731 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		A5A3C5E01A6E51F60092C731 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		A5A3C5E21A6E52090092C731 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		A5A3DCC11A5FB76B001737BD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		A5A7B58E1A36FD0900BF4F4E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		A5A7B5901A36FD2300BF4F4E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		A5A7B5921A36FD3000BF4F4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -764,6 +794,64 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		841C6EB81C2BBF7300933A75 /* 最近联系人 */ = {
+			isa = PBXGroup;
+			children = (
+				841C6EB91C2BBFAF00933A75 /* FLOChatListTableViewController.h */,
+				841C6EBA1C2BBFAF00933A75 /* FLOChatListTableViewController.m */,
+				8476A9041C2CD02D00FCB6EC /* Cell */,
+				841C6EC81C2BF33900933A75 /* 好友申请 */,
+			);
+			name = "最近联系人";
+			sourceTree = "<group>";
+		};
+		841C6EBC1C2BBFC200933A75 /* 好友 */ = {
+			isa = PBXGroup;
+			children = (
+				841C6EBE1C2BC04900933A75 /* FLOFriendListTableViewController.h */,
+				841C6EBF1C2BC04900933A75 /* FLOFriendListTableViewController.m */,
+				841C6EC41C2BE72200933A75 /* 添加好友 */,
+			);
+			name = "好友";
+			sourceTree = "<group>";
+		};
+		841C6EBD1C2BC00A00933A75 /* 群组 */ = {
+			isa = PBXGroup;
+			children = (
+				841C6EC11C2BC06300933A75 /* FLOGroupListTableViewController.h */,
+				841C6EC21C2BC06300933A75 /* FLOGroupListTableViewController.m */,
+			);
+			name = "群组";
+			sourceTree = "<group>";
+		};
+		841C6EC41C2BE72200933A75 /* 添加好友 */ = {
+			isa = PBXGroup;
+			children = (
+				841C6EC51C2BE74200933A75 /* FLOAddFriendViewController.h */,
+				841C6EC61C2BE74200933A75 /* FLOAddFriendViewController.m */,
+			);
+			name = "添加好友";
+			sourceTree = "<group>";
+		};
+		841C6EC81C2BF33900933A75 /* 好友申请 */ = {
+			isa = PBXGroup;
+			children = (
+				841C6EC91C2BF36200933A75 /* FLOFriendRequestTVC.h */,
+				841C6ECA1C2BF36200933A75 /* FLOFriendRequestTVC.m */,
+				841C6ECC1C2BF36800933A75 /* cell */,
+			);
+			name = "好友申请";
+			sourceTree = "<group>";
+		};
+		841C6ECC1C2BF36800933A75 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				841C6ECD1C2BF38C00933A75 /* FLOFriendRequestTVCell.h */,
+				841C6ECE1C2BF38C00933A75 /* FLOFriendRequestTVCell.m */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
 		841D19F11B9BCB8900010DC1 /* CocoaAsyncSocket */ = {
 			isa = PBXGroup;
 			children = (
@@ -1617,6 +1705,44 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		842516211C2AA632009CC856 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				843321991C2B89CB008F52CA /* MBProgressHUD.h */,
+				8433219A1C2B89CB008F52CA /* MBProgressHUD.m */,
+				843321961C2B89AD008F52CA /* MBProgressTool.h */,
+				843321971C2B89AD008F52CA /* MBProgressTool.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		8476A9041C2CD02D00FCB6EC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8476A9091C2CD0C800FCB6EC /* 申请 */,
+				8476A9081C2CD0A800FCB6EC /* 聊天记录 */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		8476A9081C2CD0A800FCB6EC /* 聊天记录 */ = {
+			isa = PBXGroup;
+			children = (
+				8476A9051C2CD05F00FCB6EC /* FLOChatListTableViewCell.h */,
+				8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */,
+			);
+			name = "聊天记录";
+			sourceTree = "<group>";
+		};
+		8476A9091C2CD0C800FCB6EC /* 申请 */ = {
+			isa = PBXGroup;
+			children = (
+				8476A90A1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.h */,
+				8476A90B1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m */,
+			);
+			name = "申请";
+			sourceTree = "<group>";
+		};
 		848312B51B96E763000F42BF /* XMPP */ = {
 			isa = PBXGroup;
 			children = (
@@ -1777,6 +1903,9 @@
 		A513AE871A35384500B57CFD /* AVIC_AppStore */ = {
 			isa = PBXGroup;
 			children = (
+				841C6EB81C2BBF7300933A75 /* 最近联系人 */,
+				841C6EBC1C2BBFC200933A75 /* 好友 */,
+				841C6EBD1C2BC00A00933A75 /* 群组 */,
 				84A67AE31C2A9E52004A93CD /* 登录 */,
 				84A67AEA1C2A9F26004A93CD /* XMPPManager */,
 				A513AEAE1A35397B00B57CFD /* 3rd_Class */,
@@ -1784,8 +1913,8 @@
 				A513AE8C1A35384500B57CFD /* AppDelegate.h */,
 				A513AE8D1A35384500B57CFD /* AppDelegate.m */,
 				A513AE921A35384500B57CFD /* Main.storyboard */,
+				843321941C2B8298008F52CA /* LaunchScreen.storyboard */,
 				8460621B1BB23E5D00FABCB1 /* Images.xcassets */,
-				A513AE971A35384500B57CFD /* LaunchScreen.xib */,
 				A513AE881A35384500B57CFD /* Supporting Files */,
 			);
 			path = AVIC_AppStore;
@@ -1821,6 +1950,7 @@
 		A513AEAE1A35397B00B57CFD /* 3rd_Class */ = {
 			isa = PBXGroup;
 			children = (
+				842516211C2AA632009CC856 /* MBProgressHUD */,
 				848312B51B96E763000F42BF /* XMPP */,
 				A5A1B85E1A38247D0083560A /* AFNetworking */,
 				A5A1B82C1A38245C0083560A /* SDWebImage */,
@@ -1963,6 +2093,11 @@
 					A513AE841A35384500B57CFD = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = X928ZDD77C;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					A513AE9D1A35384500B57CFD = {
 						CreatedOnToolsVersion = 6.1;
@@ -2035,6 +2170,7 @@
 				849B8A431BB0F6A1005757AE /* Expression_019@2x.png in Resources */,
 				849B8A611BB0F6A1005757AE /* Expression_049@2x.png in Resources */,
 				849B8A3F1BB0F6A1005757AE /* Expression_015@2x.png in Resources */,
+				843321951C2B8298008F52CA /* LaunchScreen.storyboard in Resources */,
 				849B8A3E1BB0F6A1005757AE /* Expression_014@2x.png in Resources */,
 				849B8A451BB0F6A1005757AE /* Expression_021@2x.png in Resources */,
 				849B8A671BB0F6A1005757AE /* Expression_055@2x.png in Resources */,
@@ -2099,6 +2235,7 @@
 				841D1B871B9BCBAD00010DC1 /* XMPPCoreDataStorage.m in Sources */,
 				841D1BDD1B9BCBAE00010DC1 /* XMPPAutoTime.m in Sources */,
 				841D1BB41B9BCBAD00010DC1 /* XMPPvCardTempBase.m in Sources */,
+				8476A9071C2CD05F00FCB6EC /* FLOChatListTableViewCell.m in Sources */,
 				A5A1B8551A38245C0083560A /* SDWebImageManager.m in Sources */,
 				841D1BBE1B9BCBAE00010DC1 /* XMPPIQ+XEP_0066.m in Sources */,
 				841D1B771B9BCBAD00010DC1 /* XMPPSCRAMSHA1Authentication.m in Sources */,
@@ -2108,6 +2245,7 @@
 				841D1BC41B9BCBAE00010DC1 /* XMPPSoftwareVersion.m in Sources */,
 				841D1B821B9BCBAD00010DC1 /* XMPPModule.m in Sources */,
 				841D1BCB1B9BCBAE00010DC1 /* XMPPCapabilities.m in Sources */,
+				843321981C2B89AD008F52CA /* MBProgressTool.m in Sources */,
 				841D1BEF1B9BCBAE00010DC1 /* XMPPTimer.m in Sources */,
 				A5A1B8521A38245C0083560A /* SDWebImageDecoder.m in Sources */,
 				841D1BA51B9BCBAD00010DC1 /* XMPPRoomOccupantHybridMemoryStorageObject.m in Sources */,
@@ -2121,6 +2259,7 @@
 				841D1B901B9BCBAD00010DC1 /* XMPPRoster.xcdatamodel in Sources */,
 				841D1A1A1B9BCB8900010DC1 /* GCDAsyncSocket.m in Sources */,
 				841D1BA11B9BCBAD00010DC1 /* XMPPRoomOccupantCoreDataStorageObject.m in Sources */,
+				841C6ECF1C2BF38C00933A75 /* FLOFriendRequestTVCell.m in Sources */,
 				84A67AE81C2A9E52004A93CD /* FLOLoginViewController.m in Sources */,
 				841D1BDB1B9BCBAE00010DC1 /* XMPPAutoPing.m in Sources */,
 				841D1BA41B9BCBAD00010DC1 /* XMPPRoomMessageHybridCoreDataStorageObject.m in Sources */,
@@ -2129,6 +2268,8 @@
 				841D1B721B9BCBAD00010DC1 /* XMPPAnonymousAuthentication.m in Sources */,
 				841D1BE21B9BCBAE00010DC1 /* XMPPMessage+XEP_0224.m in Sources */,
 				841D1B9F1B9BCBAD00010DC1 /* XMPPRoomCoreDataStorage.m in Sources */,
+				8433219B1C2B89CB008F52CA /* MBProgressHUD.m in Sources */,
+				841C6ECB1C2BF36200933A75 /* FLOFriendRequestTVC.m in Sources */,
 				841D1B981B9BCBAD00010DC1 /* XMPPIQ+JabberRPC.m in Sources */,
 				841D1B731B9BCBAD00010DC1 /* XMPPDeprecatedDigestAuthentication.m in Sources */,
 				841D1BC61B9BCBAE00010DC1 /* NSString+XEP_0106.m in Sources */,
@@ -2143,15 +2284,18 @@
 				841D1BE41B9BCBAE00010DC1 /* XMPPMessageCarbons.m in Sources */,
 				A5A1B8581A38245C0083560A /* UIImage+GIF.m in Sources */,
 				841D1B9D1B9BCBAD00010DC1 /* XMPPPrivacy.m in Sources */,
+				8476A90C1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m in Sources */,
 				841D1BAD1B9BCBAD00010DC1 /* XMPPvCardAvatarCoreDataStorageObject.m in Sources */,
 				841D1B9E1B9BCBAD00010DC1 /* XMPPRoom.xcdatamodeld in Sources */,
 				841D1B7B1B9BCBAD00010DC1 /* NSNumber+XMPP.m in Sources */,
 				841D1A261B9BCB8900010DC1 /* DDXMLElement.m in Sources */,
+				841C6EC31C2BC06300933A75 /* FLOGroupListTableViewController.m in Sources */,
 				841D1BC01B9BCBAE00010DC1 /* XMPPRegistration.m in Sources */,
 				A5A1B85A1A38245C0083560A /* UIImage+WebP.m in Sources */,
 				841D1B971B9BCBAD00010DC1 /* XMPPSystemInputActivityMonitor.m in Sources */,
 				A5A1B84F1A38245C0083560A /* NSData+ImageContentType.m in Sources */,
 				841D1B991B9BCBAD00010DC1 /* XMPPIQ+JabberRPCResonse.m in Sources */,
+				841C6EBB1C2BBFAF00933A75 /* FLOChatListTableViewController.m in Sources */,
 				841D1B811B9BCBAD00010DC1 /* XMPPMessage.m in Sources */,
 				841D1B741B9BCBAD00010DC1 /* XMPPDeprecatedPlainAuthentication.m in Sources */,
 				A5A1B8511A38245C0083560A /* SDWebImageCompat.m in Sources */,
@@ -2173,6 +2317,7 @@
 				841D1B9B1B9BCBAD00010DC1 /* XMPPIQ+LastActivity.m in Sources */,
 				841D1B761B9BCBAD00010DC1 /* XMPPPlainAuthentication.m in Sources */,
 				841D1BE71B9BCBAE00010DC1 /* XMPPMessage+XEP_0333.m in Sources */,
+				841C6EC01C2BC04900933A75 /* FLOFriendListTableViewController.m in Sources */,
 				841D1BD31B9BCBAE00010DC1 /* XMPPMessage+XEP_0172.m in Sources */,
 				841D1BDE1B9BCBAE00010DC1 /* XMPPTime.m in Sources */,
 				841D1B801B9BCBAD00010DC1 /* XMPPJID.m in Sources */,
@@ -2183,6 +2328,7 @@
 				841D1A201B9BCB8900010DC1 /* DDContextFilterLogFormatter.m in Sources */,
 				A5A1B8531A38245C0083560A /* SDWebImageDownloader.m in Sources */,
 				841D1BA01B9BCBAD00010DC1 /* XMPPRoomMessageCoreDataStorageObject.m in Sources */,
+				841C6EC71C2BE74200933A75 /* FLOAddFriendViewController.m in Sources */,
 				A5A1B8751A38247D0083560A /* AFNetworkReachabilityManager.m in Sources */,
 				841D1BD71B9BCBAE00010DC1 /* XMPPBlocking.m in Sources */,
 				841D1BBA1B9BCBAE00010DC1 /* XMPPResultSet.m in Sources */,
@@ -2279,15 +2425,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		A513AE971A35384500B57CFD /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A513AE981A35384500B57CFD /* Base */,
-				A5A3DCC11A5FB76B001737BD /* zh-Hans */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -2376,7 +2513,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -2413,7 +2549,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
