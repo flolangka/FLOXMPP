@@ -19,8 +19,7 @@
     #import <CoreGraphics/CoreGraphics.h>
 #endif
 /*
-#define SCREENWIDTH     [UIScreen mainScreen].bounds.size.width
-#define SCREENHEIGHT    [UIScreen mainScreen].bounds.size.height
+#define 
 #define THEME [[NSUserDefaults standardUserDefaults]objectForKey:@"theme"]
 #define LIBPATH [NSString stringWithFormat:@"%@",[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject]]
 
@@ -61,11 +60,10 @@
 //#define kNOTI_receiveMsg     @"XMPPReceiveMsg"
 //#define kNOTI_XMPPChatDismiss  @"XMPPChatDismiss"
 
-#define kChatbarBottomVHeight   200
-#define kEmojiNum               60
+#define 
 
 //聊天
-#define PATH_DOC           NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0]
-#define PATH_VOICE         [PATH_DOC stringByAppendingPathComponent:@"voiceDict/"]
+#define 
+#define 
 #define kVOICE_Service     @""
  */

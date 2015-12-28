@@ -9,6 +9,7 @@
 #import "FLOFriendListTableViewController.h"
 #import "XMPPManager.h"
 #import "FLOChatListFriendRequestTVC.h"
+#import "FLOXMPPChatViewController.h"
 
 @interface FLOFriendListTableViewController ()
 
@@ -71,6 +72,24 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60.;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    //聊天页面
+    FLOXMPPChatViewController *chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDChatViewController"];
+    chatVC.hidesBottomBarWhenPushed = YES;
+    
+    XMPPUserMemoryStorageObject *obj = dataArr[indexPath.row];
+    NSString *displayName = obj.displayName;
+    if ([displayName hasSuffix:xmppDomain]) {
+        NSRange range = [displayName rangeOfString:xmppDomain];
+        displayName = [displayName substringToIndex:range.location-1];
+    }
+    chatVC.title = displayName;
+    [self.navigationController pushViewController:chatVC animated:YES];
 }
 
 

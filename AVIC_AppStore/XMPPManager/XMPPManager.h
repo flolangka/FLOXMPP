@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "XMPPComment.h"
+@class FLOChatMessageModel;
 
 static NSString * const xmppDomain = @"192.168.1.2";    //需要与host一致否则在登录时可能会失败
 
@@ -19,6 +20,7 @@ static NSString * const xmppDomain = @"192.168.1.2";    //需要与host一致否
 @property (nonatomic, strong) NSMutableArray *friendRequests;
 
 @property (nonatomic, copy) void (^receiveFriendRequestBlock)(XMPPManager *);
+@property (nonatomic, copy) void (^receiveMessageBlock)(FLOChatMessageModel *);
 
 + (instancetype)manager;
 

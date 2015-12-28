@@ -12,22 +12,34 @@
  *  @{@"name": @"[微笑]",
  *    @"value": @"Expression_001@2x.png"}
  */
-#define kEmojiDicName  @"name"
-#define kEmojiDicValue @"value"
+static NSString * const kEmojiDicName = @"name";
+static NSString * const kEmojiDicValue = @"value";
 
 #import "FloChatBar.h"
-#import "DEFIND.h"
-#import "FloChatVC.h"
-#import "FloXMPPUser.h"
+#import "FLOXMPPChatViewController.h"
 
-#define kChatBarHeight     44
-#define kSpace             5
+static CGFloat kChatBarHeight = 44.;
+static CGFloat kSpace = 5.;
+static CGFloat kChatbarBottomVHeight = 200.;
+static CGFloat kEmojiNum = 60.;
+
+static CGFloat SCREENWIDTH;
+static CGFloat SCREENHEIGHT;
+
 
 @implementation FloChatBar
 
 - (void)awakeFromNib
 {
     [self setContent];
+    SCREENWIDTH = [UIScreen mainScreen].bounds.size.width;
+    SCREENHEIGHT = [UIScreen mainScreen].bounds.size.height;
+}
+
+- (void)configParentVC:(FLOXMPPChatViewController *)vc sendMessage:(void (^)(NSString *, NSString *))sendMsg
+{
+    parentVC = vc;
+    sendMessage = sendMsg;
 }
 
 - (void)setContent
@@ -41,6 +53,7 @@
     [self configUI];
     self.textView.delegate = self;
     
+    NOTICENTER = [NSNotificationCenter defaultCenter];
     [self configNotification];
 }
 
@@ -511,7 +524,7 @@
     imagePickerC.delegate = self;
     imagePickerC.sourceType = type;
     
-    [self.vc presentViewController:imagePickerC animated:YES completion:nil];
+    [parentVC presentViewController:imagePickerC animated:YES completion:nil];
 }
 
 #pragma mark - imagePickerController delegate
@@ -664,16 +677,13 @@
 #pragma mark 发送消息
 - (void)sendMsg
 {
-    ZCXMPPManager *manager = [ZCXMPPManager sharedInstance];
-    //表情+文本；附件先只有图片在上面单独方法发送;声音在代理中实现
-    [manager sendMessageWithJID:_chatUser.userName Message:_textView.text Type:MESSAGE_Text];
+    sendMessage(_textView.text, @"文字");
 }
 
 #pragma mark voice 发送声音代理
 - (void)chatVoiceVSendVoiceMsg:(NSString *)voicePath
 {
-    ZCXMPPManager *manager = [ZCXMPPManager sharedInstance];
-    [manager sendMessageWithJID:_chatUser.userName Message:voicePath Type:MESSAGE_Voice];
+    sendMessage(voicePath, @"声音");
 }
 
 
@@ -725,13 +735,13 @@
 - (void)chatBarUp:(CGFloat)height
 {
     //找到约束,更改为需要的高度
-    NSArray *constraintArray = self.vc.chatBarView.constraints;
+    NSArray *constraintArray = parentVC.chatBarView.constraints;
     for (NSLayoutConstraint *constraint in constraintArray) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
             constraint.constant += height;
         }
     }
-    [self.vc.view layoutSubviews];
+    [parentVC.view layoutSubviews];
 }
 
 

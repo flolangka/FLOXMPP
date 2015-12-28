@@ -7,8 +7,8 @@
 //
 
 #import "FloChatVoiceView.h"
-#import "DEFIND.h"
 #import "AFNetworking.h"
+#import "XMPPComment.h"
 
 @implementation FloChatVoiceView
 
@@ -147,15 +147,18 @@
 - (void)stopCollectVoice
 {
     //声音文件名：当前用户名+时间
-    voiceSaveName = [[USERDEFAULT objectForKey:kXMPPmyJID] stringByAppendingString:[NSString stringWithFormat:@"_%d",(int)[[NSDate date] timeIntervalSince1970]]];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
+    voiceSaveName = [userName stringByAppendingString:[NSString stringWithFormat:@"_%d",(int)[[NSDate date] timeIntervalSince1970]]];
     
     //判断文件夹是否存在，不存在就创建保存声音的文件夹
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *contents = [fileManager contentsOfDirectoryAtPath:PATH_DOC error:nil];
+    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
+    NSString *voicePath = [docPath stringByAppendingPathComponent:@"voiceDict/"];
+    NSArray *contents = [fileManager contentsOfDirectoryAtPath:docPath error:nil];
     if (![contents containsObject:@"voiceDict"]) {
-        [fileManager createDirectoryAtPath:PATH_VOICE withIntermediateDirectories:YES attributes:NO error:nil];
+        [fileManager createDirectoryAtPath:voicePath withIntermediateDirectories:YES attributes:NO error:nil];
     }
-    NSString *savePath = [PATH_VOICE stringByAppendingPathComponent:voiceSaveName];
+    NSString *savePath = [voicePath stringByAppendingPathComponent:voiceSaveName];
     
 #warning 保存声音
 }
@@ -176,7 +179,7 @@
 
 - (void)sendVoiceMsg
 {
-    //上传服务器
+    /*/上传服务器
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
@@ -196,7 +199,7 @@
     }];
     [uploadTask resume];
     
-    //在聊天界面中显示本条录音，但xmpp不发送
+    在聊天界面中显示本条录音，但xmpp不发送*/
     
 }
 

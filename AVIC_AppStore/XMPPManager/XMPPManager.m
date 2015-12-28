@@ -7,6 +7,9 @@
 //
 
 #import "XMPPManager.h"
+#import "FLODataBaseEngin.h"
+#import "FLOChatRecordModel.h"
+#import "FLOChatMessageModel.h"
 
 static NSString * const xmppHost = @"192.168.1.2";
 static NSString * const xmppResource = @"iOS";
@@ -268,27 +271,27 @@ static XMPPManager *manager;
     if ([message isErrorMessage]) {
         NSLog(@"收到一条错误消息>>%@", [message body]);
     } else {
-//        NSString *messageBody = [message body];
-//        NSString *sourceUser = [message.fromStr substringToIndex:[message.fromStr rangeOfString:@"@"].location];
+        NSString *messageBody = [message body];
+        NSString *sourceUser = [message.fromStr substringToIndex:[message.fromStr rangeOfString:@"@"].location];
+        NSString *timeStr = [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
         
-        //赋给消息对象
-//        FloXMPPMessage *msg = [[FloXMPPMessage alloc] initWithSourceUser:sourceUser msgBody:messageBody sendTime:[NSDate date] type:FloMessageTypePlain];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kXMPPReceiveMsg object:nil userInfo:@{@"sourceName": sourceUser, @"msg": msg}];
+        //保存聊天记录
+        FLOChatRecordModel *chatRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": sourceUser,
+                                                                                          @"lastMessage": messageBody,
+                                                                                          @"lastTime": timeStr}];
+        [[FLODataBaseEngin shareInstance] saveChatRecord:chatRecord];
+        
+        //保存消息记录
+        FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": sourceUser,
+                                                                                              @"messageTo": _xmppStream.myJID.user,
+                                                                                              @"messageContent": messageBody,
+                                                                                              @"messageDate": timeStr}];
+        [[FLODataBaseEngin shareInstance] insertChatMessages:@[messageModel]];
         
         
-        //将消息存储到本地数据库中，成功之后发送通知带本次消息的发送用户，接收通知方根据用户进行操作
-        
-        
-        //当程序处于后台时
-//        if([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive)
-//        {
-//            // We are not active, so use a local notification instead
-//            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-//            localNotification.alertAction = @"Ok";
-//            localNotification.alertBody = [NSString stringWithFormat:@"%@: %@", sourceUser, messageBody];
-//            
-//            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-//        }
+        if (_receiveMessageBlock) {
+            _receiveMessageBlock(messageModel);
+        }
     }
 }
 
@@ -302,20 +305,10 @@ static XMPPManager *manager;
 //    [message addAttributeWithName:@"to" stringValue:to];
 //    [message addChild:body];
 //    [xmppStream sendElement:message];
-}
-
-
-#pragma mark 添加好友
-- (void)addSomeBody:(NSString *)userId
-{
-    //    XMPPRoster
-}
-
-
-#pragma mark 发送文件
-- (void)sendFile:(NSData *)aData toJID:(XMPPJID *)aJID
-{
     
+    
+    [[FLODataBaseEngin shareInstance] insertChatMessages:@[]];
 }
+
 
 @end

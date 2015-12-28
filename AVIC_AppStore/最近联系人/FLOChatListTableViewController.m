@@ -11,6 +11,9 @@
 #import "FLOFriendRequestTVC.h"
 #import "FLOChatListTableViewCell.h"
 #import "FLOChatListFriendRequestTVC.h"//cell
+#import "FLOXMPPChatViewController.h"
+#import "FLODataBaseEngin.h"
+#import "FLOChatRecordModel.h"
 
 @interface FLOChatListTableViewController ()
 
@@ -45,7 +48,21 @@
     
     if ([manager.xmppStream isAuthenticated]) {
         
+        NSArray *chatRecords = [[FLODataBaseEngin shareInstance] selectAllChatRecords];
+        [dataArr removeObjectsInRange:NSMakeRange(1, dataArr.count-1)];
+        [dataArr addObjectsFromArray:chatRecords];
         [self.tableView reloadData];
+        
+        //回调在进入聊天页面时会变，所以在此重置
+        __weak FLOChatListTableViewController *weakSelf = self;
+        __weak NSMutableArray *weakDataArr = dataArr;
+        manager.receiveMessageBlock = ^(FLOChatMessageModel *msgModel) {
+            NSArray *chatRecords = [[FLODataBaseEngin shareInstance] selectAllChatRecords];
+            [weakDataArr removeObjectsInRange:NSMakeRange(1, weakDataArr.count-1)];
+            [weakDataArr addObjectsFromArray:chatRecords];
+            [weakSelf.tableView reloadData];
+        };
+        
         return;
     } else {
         [manager autoAuthorizationSuccess:^{
@@ -67,6 +84,9 @@
     NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
     [UD setObject:@"" forKey:kUserName];
     [UD synchronize];
+    
+    //删除聊天记录
+    [[FLODataBaseEngin shareInstance] resetDatabase];
     
     //跳转到主页面
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
@@ -96,6 +116,11 @@
         FLOChatListTableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:@"chatUserCellID" forIndexPath:indexPath];
         myCell.iconImageV.image = [UIImage imageNamed:@"call_list_qcall_entry"];
         
+        FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
+        myCell.userNameL.text = chatRecord.chatUser;
+        myCell.msgL.text = chatRecord.lastMessage;
+        myCell.timeL.text = [NSDateFormatter localizedStringFromDate:chatRecord.lastDate dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle];
+        
         cell = myCell;
     }
     
@@ -118,7 +143,11 @@
         [self.navigationController pushViewController:friendRequestTVC animated:YES];
     } else {
         //聊天页面
+        FLOXMPPChatViewController *chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDChatViewController"];
         
+        FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
+        chatVC.title = chatRecord.chatUser;
+        [self.navigationController pushViewController:chatVC animated:YES];
     }
 }
 

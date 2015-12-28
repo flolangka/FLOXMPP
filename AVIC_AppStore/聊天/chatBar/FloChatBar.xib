@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,6 +16,7 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MGq-Gi-2TQ">
                             <rect key="frame" x="2" y="2" width="40" height="40"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="6Fr-fW-XEk"/>
                                 <constraint firstAttribute="width" constant="40" id="DPB-9j-vQ2"/>
@@ -29,6 +30,7 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LgZ-0K-oxI">
                             <rect key="frame" x="42" y="2" width="40" height="40"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="2FK-5E-7WI"/>
                                 <constraint firstAttribute="width" constant="40" id="DGD-BB-F3K"/>
@@ -45,6 +47,7 @@
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kcj-kO-yGd">
                                     <rect key="frame" x="0.0" y="7" width="228" height="30"/>
+                                    <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -55,6 +58,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </textView>
                             </subviews>
+                            <animations/>
                             <color key="backgroundColor" white="0.85554584703947367" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="Kcj-kO-yGd" secondAttribute="trailing" id="1ga-QK-OoV"/>
@@ -65,12 +69,14 @@
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FfL-Yz-bEi">
                             <rect key="frame" x="320" y="2" width="50" height="40"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="ieZ-Bc-xRW"/>
                                 <constraint firstAttribute="height" constant="40" id="k6H-xt-SY6"/>
                             </constraints>
                         </view>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="0.86030016447368429" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="LgZ-0K-oxI" firstAttribute="leading" secondItem="MGq-Gi-2TQ" secondAttribute="trailing" id="3yi-vq-eYr"/>
@@ -88,9 +94,11 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o1T-ud-b68">
                     <rect key="frame" x="0.0" y="44" width="375" height="200"/>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="o1T-ud-b68" secondAttribute="trailing" id="0pa-8J-zPd"/>
@@ -120,6 +128,7 @@
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="按住说话" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W9X-Uj-boc">
                     <rect key="frame" x="112" y="8" width="150" height="21"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="150" id="SpK-IF-hfs"/>
                         <constraint firstAttribute="height" constant="21" id="gTa-K7-VVO"/>
@@ -130,6 +139,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0mL-bI-wgG">
                     <rect key="frame" x="124" y="36" width="128" height="128"/>
+                    <animations/>
                     <state key="normal" image="yuyin-anjian">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -141,6 +151,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nrt-bQ-cmM">
                     <rect key="frame" x="0.0" y="170" width="188" height="30"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="RNT-HU-Nev"/>
@@ -154,6 +165,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G9y-Jc-Vp2">
                     <rect key="frame" x="25" y="45" width="50" height="50"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="4YV-Ki-fkY"/>
@@ -170,6 +182,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbB-fN-OdT">
                     <rect key="frame" x="300" y="45" width="50" height="50"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="mjk-jf-zDP"/>
@@ -186,6 +199,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eOW-eB-5DK">
                     <rect key="frame" x="188" y="170" width="187" height="30"/>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="EO7-tg-GeO"/>
@@ -198,6 +212,7 @@
                     </connections>
                 </button>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="0.85945209703947367" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="G9y-Jc-Vp2" firstAttribute="leading" secondItem="Pd6-9a-dW5" secondAttribute="leading" constant="25" id="1uG-Ku-70a"/>
@@ -233,9 +248,4 @@
         <image name="TypeSelectorBtn_Black" width="35" height="35"/>
         <image name="yuyin-anjian" width="128" height="128"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FloChatVoiceView.h"
 
-@class FloChatVC;
-@class FloXMPPUser;
+@class FLOXMPPChatViewController;
 
 typedef enum {
     FloBottomTypeKeyboard,
@@ -29,12 +28,11 @@ typedef enum {
     UIButton *_checkoutBtn;
     
     CGFloat lastKeyboardHeight;
+    
+    NSNotificationCenter *NOTICENTER;
+    FLOXMPPChatViewController *parentVC;
+    void(^sendMessage)(NSString *, NSString *);
 }
-
-//必须设置的
-@property (nonatomic, assign) FloChatVC *vc;
-@property (nonatomic, assign) FloXMPPUser *chatUser;
-
 
 @property (nonatomic) BOOL bottomVVisiable;
 @property (nonatomic) BOOL keyboardVisiable;
@@ -54,5 +52,7 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
 - (void)hiddenChatBar;
+- (void)configParentVC:(FLOXMPPChatViewController *)vc sendMessage:(void(^)(NSString *, NSString *))sendMsg;
+
 
 @end
