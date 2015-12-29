@@ -21,15 +21,15 @@ static NSUInteger xmppPort = 5222;
 {
     //连接
     void(^connectSuccessBlock)();
-    void(^connectFailureBlock)();
+    void(^connectFailureBlock)(NSString *);
     
     //登录
     void(^authorizationSuccessBlock)();
-    void(^authorizationFailureBlock)();
+    void(^authorizationFailureBlock)(NSString *);
     
     //注册
     void(^registerSuccessBlock)();
-    void(^registerFailureBlock)();
+    void(^registerFailureBlock)(NSString *);
     
     //更新好友列表
     void(^fetchRosterSuccessBlock)();
@@ -60,7 +60,7 @@ static XMPPManager *manager;
 }
 
 #pragma mark - 连接服务器
-- (void)connect2ServerSuccess:(void(^)())success failure:(void(^)())failure
+- (void)connect2ServerSuccess:(void(^)())success failure:(void(^)(NSString *))failure
 {
     connectSuccessBlock = success;
     connectFailureBlock = failure;
@@ -73,13 +73,13 @@ static XMPPManager *manager;
 }
 
 #pragma mark - 上线
-- (void)autoAuthorizationSuccess:(void (^)())success failure:(void (^)())faiure
+- (void)autoAuthorizationSuccess:(void (^)())success failure:(void (^)(NSString *))faiure
 {
     NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
     [self authorizationWithUserName:[UD stringForKey:kUserName] password:[UD stringForKey:kPassWord] success:success failure:faiure];
 }
 
-- (void)authorizationWithUserName:(NSString *)userName password:(NSString *)password success:(void (^)())success failure:(void (^)())failure
+- (void)authorizationWithUserName:(NSString *)userName password:(NSString *)password success:(void (^)())success failure:(void (^)(NSString *))failure
 {
     xmppPassword = password;
     authorizationSuccessBlock = success;
@@ -91,13 +91,13 @@ static XMPPManager *manager;
     [self connect2ServerSuccess:^{
         NSError *error;
         [_xmppStream authenticateWithPassword:xmppPassword error:&error];
-    } failure:^{
-        failure();
+    } failure:^(NSString *errorStr){
+        failure(errorStr);
     }];
 }
 
 #pragma mark - 注册
-- (void)registerWithUserName:(NSString *)userName password:(NSString *)password success:(void (^)())success failure:(void (^)())failure
+- (void)registerWithUserName:(NSString *)userName password:(NSString *)password success:(void (^)())success failure:(void (^)(NSString *))failure
 {
     xmppPassword = password;
     registerSuccessBlock = success;
@@ -109,8 +109,8 @@ static XMPPManager *manager;
     [self connect2ServerSuccess:^{
         NSError *error;
         [_xmppStream registerWithPassword:xmppPassword error:&error];
-    } failure:^{
-        failure();
+    } failure:^(NSString *errorStr){
+        failure(errorStr);
     }];
 }
 
@@ -154,7 +154,7 @@ static XMPPManager *manager;
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error
 {
     NSLog(@"XMPP>>>>连接服务器失败>>%@", error.localizedDescription);
-    connectFailureBlock();
+    connectFailureBlock(@"无法连接到服务器");
 }
 
 
@@ -173,7 +173,7 @@ static XMPPManager *manager;
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(DDXMLElement *)error
 {
     NSLog(@"XMPP>>>>登录失败>>%@", error);
-    authorizationFailureBlock();
+    authorizationFailureBlock(@"登录失败");
 }
 
 
@@ -187,7 +187,7 @@ static XMPPManager *manager;
 - (void)xmppStream:(XMPPStream *)sender didNotRegister:(DDXMLElement *)error
 {
     NSLog(@"XMPP>>>>注册失败>>%@", error);
-    registerFailureBlock();
+    registerFailureBlock(@"注册失败");
 }
 
 
@@ -216,9 +216,9 @@ static XMPPManager *manager;
 - (void)addFriend:(NSString *)userName message:(NSString*)message
 {
     if (message) {
-        XMPPMessage *mes=[XMPPMessage messageWithType:@"chat" to:[XMPPJID jidWithUser:userName domain:xmppDomain resource:xmppResource]];
-        [mes addChild:[DDXMLNode elementWithName:@"body" stringValue:message]];
-        [_xmppStream sendElement:mes];
+        NSString *timeInterval = [NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]];
+        NSString *msgPrefix = [Message_Prefix_Text stringByAppendingString:timeInterval];
+        [self sendMessage:[msgPrefix stringByAppendingString:message] toUser:userName];
     }
     
     [_xmppRoster subscribePresenceToUser:[XMPPJID jidWithUser:userName domain:xmppDomain resource:xmppResource]];
@@ -255,9 +255,10 @@ static XMPPManager *manager;
     NSString *presenceFromUser = [[presence from] user];
     
     NSLog(@"收到好友请求>>%@", presenceFromUser);
-    if (![presenceFromUser isEqualToString:myUsername]) {
-        [_friendRequests addObject:presenceFromUser];
+    if ([presenceFromUser isEqualToString:myUsername] || [_friendRequests containsObject:presenceFromUser]) {
+        return;
     }
+    [_friendRequests addObject:presenceFromUser];
     if (_receiveFriendRequestBlock) {
         _receiveFriendRequestBlock(self);
     }

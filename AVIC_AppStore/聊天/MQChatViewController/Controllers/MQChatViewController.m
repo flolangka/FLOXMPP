@@ -36,7 +36,7 @@ static CGFloat const kMQChatViewInputBarHeight = 50.0;
 }
 
 - (void)dealloc {
-    NSLog(@"清除chatViewController");
+//    NSLog(@"清除chatViewController");
     [self removeDelegate];
     [chatViewConfig setConfigToDefault];
 }

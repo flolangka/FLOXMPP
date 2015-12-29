@@ -48,12 +48,24 @@
         return;
     }
     
-    [[XMPPManager manager] registerWithUserName:_userNameTF.text password:_passwordTF.text success:^{
-        [MBProgressTool showPromptViewInView:self.view WithTitle:@"注册成功"];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } failure:^{
-        [MBProgressTool showPromptViewInView:self.view WithTitle:@"注册失败"];
-    }];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        
+        [[XMPPManager manager] registerWithUserName:_userNameTF.text password:_passwordTF.text success:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+            
+            [MBProgressTool showPromptViewInView:self.view WithTitle:@"注册成功"];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } failure:^(NSString *errorStr){
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                [MBProgressTool showPromptViewInView:self.view WithTitle:errorStr];
+            });
+        }];
+    });
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

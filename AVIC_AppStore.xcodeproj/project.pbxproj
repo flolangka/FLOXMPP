@@ -740,7 +740,7 @@
 		84A67AEB1C2A9F26004A93CD /* XMPPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPManager.h; sourceTree = "<group>"; };
 		84A67AEC1C2A9F26004A93CD /* XMPPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPManager.m; sourceTree = "<group>"; };
 		84A67AEE1C2AA015004A93CD /* XMPPComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPComment.h; sourceTree = "<group>"; };
-		A513AE851A35384500B57CFD /* AVIC_AppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVIC_AppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A513AE851A35384500B57CFD /* FloXMPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloXMPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A513AE891A35384500B57CFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A513AE8A1A35384500B57CFD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A513AE8C1A35384500B57CFD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -2246,7 +2246,7 @@
 		A513AE861A35384500B57CFD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A513AE851A35384500B57CFD /* AVIC_AppStore.app */,
+				A513AE851A35384500B57CFD /* FloXMPP.app */,
 				A513AE9E1A35384500B57CFD /* AVIC_AppStoreTests.xctest */,
 			);
 			name = Products;
@@ -2415,7 +2415,7 @@
 			);
 			name = AVIC_AppStore;
 			productName = AVIC_AppStore;
-			productReference = A513AE851A35384500B57CFD /* AVIC_AppStore.app */;
+			productReference = A513AE851A35384500B57CFD /* FloXMPP.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A513AE9D1A35384500B57CFD /* AVIC_AppStoreTests */ = {
@@ -2868,6 +2868,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/AVIC_AppStore/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2891,7 +2892,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flolangka.xmpp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FloXMPP;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2906,6 +2907,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/AVIC_AppStore/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2929,7 +2931,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flolangka.xmpp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FloXMPP;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;

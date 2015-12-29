@@ -25,11 +25,11 @@ static NSString * const xmppDomain = @"192.168.1.2";    //需要与host一致否
 + (instancetype)manager;
 
 //登录上线
-- (void)autoAuthorizationSuccess:(void(^)())success failure:(void(^)())faiure;
-- (void)authorizationWithUserName:(NSString *)userName password:(NSString *)password success:(void(^)())success failure:(void(^)())failure;
+- (void)autoAuthorizationSuccess:(void(^)())success failure:(void(^)(NSString *))faiure;
+- (void)authorizationWithUserName:(NSString *)userName password:(NSString *)password success:(void(^)())success failure:(void(^)(NSString *))failure;
 
 //新用户注册
-- (void)registerWithUserName:(NSString *)userName password:(NSString *)password success:(void(^)())success failure:(void(^)())failure;
+- (void)registerWithUserName:(NSString *)userName password:(NSString *)password success:(void(^)())success failure:(void(^)(NSString *))failure;
 
 //注销
 - (void)logoutAndDisconnect;

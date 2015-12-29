@@ -110,8 +110,6 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
         [cellModel updateCellMessageDate:msg.messageDate];
         cellModel.sendStatus = MQChatMessageSendStatusSuccess;
         
-        
-
         return cellModel;
     } else if ([msg.messageContent hasPrefix:Message_Prefix_Image]) {
         //图片

@@ -7,7 +7,6 @@
 //
 
 #import "MBProgressTool.h"
-#import "MBProgressHUD.h"
 
 @implementation MBProgressTool
 

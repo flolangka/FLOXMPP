@@ -34,6 +34,10 @@
     
     self.title = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
     
+    UITabBarController *tabBarController = self.tabBarController;
+    UITabBarItem *item0 = tabBarController.tabBar.items[0];
+    [item0 setTitle:@"消息"];
+    
     dataArr = [NSMutableArray arrayWithObject:@[]];
     manager = [XMPPManager manager];
     
@@ -49,10 +53,9 @@
 {
     [super viewWillAppear:animated];
     
+    [self refreshChatRecord];
+    
     if ([manager.xmppStream isAuthenticated]) {
-        
-        [self refreshChatRecord];
-        
         //回调在进入聊天页面时会变，所以在此重置
         __weak FLOChatListTableViewController *weakSelf = self;
         __weak NSMutableArray *weakDataArr = dataArr;
@@ -65,11 +68,23 @@
         
         return;
     } else {
-        [manager autoAuthorizationSuccess:^{
-            [self refreshChatRecord];
-        } failure:^{
-            [MBProgressTool showPromptViewInView:self.view WithTitle:@"登录失败"];
-        }];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            [manager autoAuthorizationSuccess:^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                });
+                
+                [self refreshChatRecord];
+            } failure:^(NSString *errorStr){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:NO];
+                    [MBProgressTool showPromptViewInView:self.view WithTitle:errorStr];
+                });
+            }];
+        });
     }
 }
 

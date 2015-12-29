@@ -35,20 +35,33 @@
         return;
     }
     
-    [[XMPPManager manager] authorizationWithUserName:_userNameTF.text password:_passwordTF.text success:^{
-        //保存用户名密码，下次自动登录
-        NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
-        [UD setObject:_userNameTF.text forKey:kUserName];
-        [UD setObject:_passwordTF.text forKey:kPassWord];
-        [UD synchronize];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        //跳转到主页面
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-        keyWindow.rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDTabbarController"];
-        [keyWindow makeKeyAndVisible];
-    } failure:^{
-        [MBProgressTool showPromptViewInView:self.view WithTitle:@"登录失败"];
-    }];
+        [[XMPPManager manager] authorizationWithUserName:_userNameTF.text password:_passwordTF.text success:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+            
+            //保存用户名密码，下次自动登录
+            NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
+            [UD setObject:_userNameTF.text forKey:kUserName];
+            [UD setObject:_passwordTF.text forKey:kPassWord];
+            [UD synchronize];
+            
+            //跳转到主页面
+            UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+            keyWindow.rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDTabbarController"];
+            [keyWindow makeKeyAndVisible];
+        } failure:^(NSString *errorStr){
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                [MBProgressTool showPromptViewInView:self.view WithTitle:errorStr];
+            });
+        }];
+    });
+    
 }
 
 - (IBAction)registerAction:(UIButton *)sender {
