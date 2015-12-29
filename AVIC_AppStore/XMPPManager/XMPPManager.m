@@ -273,19 +273,29 @@ static XMPPManager *manager;
     } else {
         NSString *messageBody = [message body];
         NSString *sourceUser = [message.fromStr substringToIndex:[message.fromStr rangeOfString:@"@"].location];
-        NSString *timeStr = [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
+        
+        NSString *lastStr = [messageBody substringFromIndex:4];
+        NSRange range = [lastStr rangeOfString:@"]"];
+        NSString *timeStr = [lastStr substringToIndex:range.location];
         
         //保存聊天记录
+        NSString *chatRecordMsgBody = @"";
+        if ([messageBody hasPrefix:Message_Prefix_Text]) {
+            chatRecordMsgBody = [lastStr substringFromIndex:range.location+1];
+        } else if ([messageBody hasPrefix:Message_Prefix_Image]) {
+            chatRecordMsgBody = @"[图片]";
+        } else if ([messageBody hasPrefix:Message_Prefix_Voice]) {
+            chatRecordMsgBody = @"[语音]";
+        }
         FLOChatRecordModel *chatRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": sourceUser,
-                                                                                          @"lastMessage": messageBody,
+                                                                                          @"lastMessage": chatRecordMsgBody,
                                                                                           @"lastTime": timeStr}];
         [[FLODataBaseEngin shareInstance] saveChatRecord:chatRecord];
         
         //保存消息记录
         FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": sourceUser,
                                                                                               @"messageTo": _xmppStream.myJID.user,
-                                                                                              @"messageContent": messageBody,
-                                                                                              @"messageDate": timeStr}];
+                                                                                              @"messageContent": messageBody}];
         [[FLODataBaseEngin shareInstance] insertChatMessages:@[messageModel]];
         
         
@@ -297,17 +307,19 @@ static XMPPManager *manager;
 
 - (void)sendMessage:(NSString *)mes toUser:(NSString *)user
 {
-//    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
-//    [body setStringValue:mes];
-//    NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
-//    [message addAttributeWithName:@"type" stringValue:@"chat"];
-//    NSString *to = [NSString stringWithFormat:@"%@@%@", user, kHostName];
-//    [message addAttributeWithName:@"to" stringValue:to];
-//    [message addChild:body];
-//    [xmppStream sendElement:message];
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:mes];
+    NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
+    [message addAttributeWithName:@"type" stringValue:@"chat"];
+    NSString *to = [NSString stringWithFormat:@"%@@%@", user, xmppDomain];
+    [message addAttributeWithName:@"to" stringValue:to];
+    [message addChild:body];
+    [_xmppStream sendElement:message];
     
-    
-    [[FLODataBaseEngin shareInstance] insertChatMessages:@[]];
+    FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": _xmppStream.myJID.user,
+                                                                                          @"messageTo": user,
+                                                                                          @"messageContent": mes}];
+    [[FLODataBaseEngin shareInstance] insertChatMessages:@[messageModel]];
 }
 
 

@@ -15,9 +15,10 @@
 @property (nonatomic, copy) NSString *messageFrom;
 //发送给谁
 @property (nonatomic, copy) NSString *messageTo;
-//内容:文字、声音、图片内容前缀[0]、[1]、[2]
+//内容:文字、声音、图片内容前缀[0]、[1]、[2] + [timeInterver]
 @property (nonatomic, copy) NSString *messageContent;
-//时间
+
+//时间,由内容得到
 @property (nonatomic, strong) NSDate *messageDate;
 
 - (instancetype)initWithDictionary:(NSDictionary *)infoDic;

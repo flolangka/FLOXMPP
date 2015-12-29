@@ -29,7 +29,7 @@ static NSString *dataBasePath;
     }
     
     NSArray *insertArr = @[[chatRecord infoDictionary]];
-    [self insert2Table:@"BookMarks" values:insertArr];
+    [self insert2Table:@"ChatRecord" values:insertArr];
 }
 
 - (NSArray *)selectAllChatRecords
@@ -41,7 +41,7 @@ static NSString *dataBasePath;
 }
 
 #pragma mark - 聊天消息记录
-//CREATE TABLE ChatMessage(ID integer PRIMARY KEY, messageFrom text, messageTo text, messageContent text, messageDate text);
+//CREATE TABLE ChatMessage(ID integer PRIMARY KEY, messageFrom text, messageTo text, messageContent text);
 - (void)insertChatMessages:(NSArray *)chatMessages
 {
     NSMutableArray *muArr = [NSMutableArray array];
@@ -49,7 +49,7 @@ static NSString *dataBasePath;
         [muArr addObject:[chatMsg infoDictionary]];
     }
     
-    [self insert2Table:@"BookMarks" values:muArr];
+    [self insert2Table:@"ChatMessage" values:muArr];
 }
 
 - (NSArray *)selectAllChatMessagesWithChatUser:(NSString *)chatUser

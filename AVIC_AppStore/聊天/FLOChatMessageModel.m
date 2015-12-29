@@ -26,7 +26,11 @@
         _messageFrom = infoDic[@"messageFrom"];
         _messageTo = infoDic[@"messageTo"];
         _messageContent = infoDic[@"messageContent"];
-        _messageDate = [NSDate dateWithTimeIntervalSince1970:[infoDic[@"messageDate"] doubleValue]];
+        
+        NSString *lastStr = [infoDic[@"messageContent"] substringFromIndex:4];
+        NSRange range = [lastStr rangeOfString:@"]"];
+        double timeInterval = [[lastStr substringToIndex:range.location] doubleValue];
+        _messageDate = [NSDate dateWithTimeIntervalSince1970:timeInterval];
     }
     return self;
 }
@@ -40,8 +44,7 @@
 {
     return @{@"messageFrom": _messageFrom,
              @"messageTo": _messageTo,
-             @"messageContent": _messageContent,
-             @"messageDate": [NSString stringWithFormat:@"%f", [_messageDate timeIntervalSince1970]]};
+             @"messageContent": _messageContent};
 }
 
 - (FLOChatRecordModel *)chatRecord

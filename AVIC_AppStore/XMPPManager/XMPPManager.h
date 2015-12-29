@@ -42,5 +42,7 @@ static NSString * const xmppDomain = @"192.168.1.2";    //需要与host一致否
 - (void)agreeAddFriendRequest:(NSString*)name;
 - (void)rejectAddFriendRequest:(NSString*)name;
 
+//发消息
+- (void)sendMessage:(NSString *)mes toUser:(NSString *)user;
 
 @end

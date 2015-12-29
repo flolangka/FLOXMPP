@@ -11,9 +11,12 @@
 #import "FLOFriendRequestTVC.h"
 #import "FLOChatListTableViewCell.h"
 #import "FLOChatListFriendRequestTVC.h"//cell
-#import "FLOXMPPChatViewController.h"
 #import "FLODataBaseEngin.h"
 #import "FLOChatRecordModel.h"
+
+#import "MQChatViewManager.h"
+#import "MQAssetUtil.h"
+#import "NSDate+Utils.h"
 
 @interface FLOChatListTableViewController ()
 
@@ -48,10 +51,7 @@
     
     if ([manager.xmppStream isAuthenticated]) {
         
-        NSArray *chatRecords = [[FLODataBaseEngin shareInstance] selectAllChatRecords];
-        [dataArr removeObjectsInRange:NSMakeRange(1, dataArr.count-1)];
-        [dataArr addObjectsFromArray:chatRecords];
-        [self.tableView reloadData];
+        [self refreshChatRecord];
         
         //回调在进入聊天页面时会变，所以在此重置
         __weak FLOChatListTableViewController *weakSelf = self;
@@ -66,9 +66,9 @@
         return;
     } else {
         [manager autoAuthorizationSuccess:^{
-            NSLog(@"");
+            [self refreshChatRecord];
         } failure:^{
-            NSLog(@"");
+            [MBProgressTool showPromptViewInView:self.view WithTitle:@"登录失败"];
         }];
     }
 }
@@ -92,6 +92,15 @@
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     keyWindow.rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDLoginVC"];
     [keyWindow makeKeyAndVisible];
+}
+
+#pragma mark - 获取chatRecord
+- (void)refreshChatRecord
+{
+    NSArray *chatRecords = [[FLODataBaseEngin shareInstance] selectAllChatRecords];
+    [dataArr removeObjectsInRange:NSMakeRange(1, dataArr.count-1)];
+    [dataArr addObjectsFromArray:chatRecords];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -119,7 +128,7 @@
         FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
         myCell.userNameL.text = chatRecord.chatUser;
         myCell.msgL.text = chatRecord.lastMessage;
-        myCell.timeL.text = [NSDateFormatter localizedStringFromDate:chatRecord.lastDate dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle];
+        myCell.timeL.text = [NSString stringWithFormat:@"%d:%d %@", chatRecord.lastDate.hour, chatRecord.lastDate.minute, chatRecord.lastDate.stringYearMonthDayCompareToday];
         
         cell = myCell;
     }
@@ -143,11 +152,14 @@
         [self.navigationController pushViewController:friendRequestTVC animated:YES];
     } else {
         //聊天页面
-        FLOXMPPChatViewController *chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDChatViewController"];
-        
         FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
-        chatVC.title = chatRecord.chatUser;
-        [self.navigationController pushViewController:chatVC animated:YES];
+        
+        MQChatViewManager *chatViewManager = [[MQChatViewManager alloc] init];
+        [chatViewManager setNavTitleText:chatRecord.chatUser];
+        [chatViewManager enableRoundAvatar:YES];
+        [chatViewManager setoutgoingDefaultAvatarImage:[UIImage imageNamed:@"call_list_qcall_entry"]];
+        [chatViewManager setincomingDefaultAvatarImage:[UIImage imageNamed:@"taylor_swift"]];
+        [chatViewManager pushMQChatViewControllerInViewController:self];
     }
 }
 
