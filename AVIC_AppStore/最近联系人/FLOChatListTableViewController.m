@@ -68,20 +68,20 @@
         
         return;
     } else {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
             
             [manager autoAuthorizationSuccess:^{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
                 });
                 
                 [self refreshChatRecord];
             } failure:^(NSString *errorStr){
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.view animated:NO];
-                    [MBProgressTool showPromptViewInView:self.view WithTitle:errorStr];
+                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:NO];
+                    [MBProgressTool showPromptViewInView:[UIApplication sharedApplication].keyWindow WithTitle:errorStr];
                 });
             }];
         });
@@ -165,7 +165,7 @@
         FLOFriendRequestTVC *friendRequestTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDFiendRequestTV"];
         friendRequestTVC.dataArr = [NSMutableArray arrayWithArray:dataArr[0]];
         [self.navigationController pushViewController:friendRequestTVC animated:YES];
-    } else {
+    } else if (indexPath.row > 0) {
         //聊天页面
         FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
         

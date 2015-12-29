@@ -255,6 +255,14 @@ static XMPPManager *manager;
     NSString *presenceFromUser = [[presence from] user];
     
     NSLog(@"收到好友请求>>%@", presenceFromUser);
+    if (_xmppMyFriends) {
+        for (XMPPUserMemoryStorageObject *user in _xmppMyFriends) {
+            if ([user.jid.user isEqualToString:presenceFromUser]) {
+                return;
+            }
+        }
+    }
+    
     if ([presenceFromUser isEqualToString:myUsername] || [_friendRequests containsObject:presenceFromUser]) {
         return;
     }
