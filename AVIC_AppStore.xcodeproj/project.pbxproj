@@ -228,6 +228,7 @@
 		84A67AE81C2A9E52004A93CD /* FLOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A67AE51C2A9E52004A93CD /* FLOLoginViewController.m */; };
 		84A67AE91C2A9E52004A93CD /* FLORegistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A67AE71C2A9E52004A93CD /* FLORegistViewController.m */; };
 		84A67AED1C2A9F26004A93CD /* XMPPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A67AEC1C2A9F26004A93CD /* XMPPManager.m */; };
+		84CFFAAA1C343680001BA811 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CFFAA91C343680001BA811 /* AudioToolbox.framework */; };
 		A513AE8B1A35384500B57CFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A513AE8A1A35384500B57CFD /* main.m */; };
 		A513AE8E1A35384500B57CFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A513AE8D1A35384500B57CFD /* AppDelegate.m */; };
 		A513AEA51A35384500B57CFD /* AVIC_AppStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A513AEA41A35384500B57CFD /* AVIC_AppStoreTests.m */; };
@@ -740,6 +741,9 @@
 		84A67AEB1C2A9F26004A93CD /* XMPPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPManager.h; sourceTree = "<group>"; };
 		84A67AEC1C2A9F26004A93CD /* XMPPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPManager.m; sourceTree = "<group>"; };
 		84A67AEE1C2AA015004A93CD /* XMPPComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPComment.h; sourceTree = "<group>"; };
+		84CFFAA51C34361D001BA811 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		84CFFAA71C34362C001BA811 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		84CFFAA91C343680001BA811 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A513AE851A35384500B57CFD /* FloXMPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloXMPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A513AE891A35384500B57CFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A513AE8A1A35384500B57CFD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -831,6 +835,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84CFFAAA1C343680001BA811 /* AudioToolbox.framework in Frameworks */,
 				848BB7A31BA0148200ECC11A /* libiconv.dylib in Frameworks */,
 				8434D0BC1C3122FB0060C9DD /* libopencore-amrnb.a in Frameworks */,
 				841D1BF21B9BCC6D00010DC1 /* Security.framework in Frameworks */,
@@ -2215,6 +2220,9 @@
 		84F9ACD41B8AB7BD008FAA61 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84CFFAA91C343680001BA811 /* AudioToolbox.framework */,
+				84CFFAA71C34362C001BA811 /* AVKit.framework */,
+				84CFFAA51C34361D001BA811 /* AVFoundation.framework */,
 				848BB7A21BA0148200ECC11A /* libiconv.dylib */,
 				841D1BF11B9BCC6D00010DC1 /* Security.framework */,
 				A5A3C5E21A6E52090092C731 /* CoreMedia.framework */,
@@ -2456,6 +2464,7 @@
 					};
 					A513AE9D1A35384500B57CFD = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = X928ZDD77C;
 						TestTargetID = A513AE841A35384500B57CFD;
 					};
 				};
@@ -2882,16 +2891,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/libidn",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/输入框（聊天版）/Emoji-master/SDK包/amr_wav/VoiceConvert/lib",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/输入框（聊天版）/StickerSDK/Library",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/ZBarSDK",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/输入框（聊天版）/StickerSDK",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/UUChat/VoiceLib",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/MQChatViewController/Vendors/MLAudioRecorder/amr_en_de/lib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lxml2";
-				PRODUCT_BUNDLE_IDENTIFIER = com.flolangka.xmpp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flo.xmpp;
 				PRODUCT_NAME = FloXMPP;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2921,16 +2926,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/libidn",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/输入框（聊天版）/Emoji-master/SDK包/amr_wav/VoiceConvert/lib",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/输入框（聊天版）/StickerSDK/Library",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/ZBarSDK",
-					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/输入框（聊天版）/StickerSDK",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/UUChat/VoiceLib",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/MQChatViewController/Vendors/MLAudioRecorder/amr_en_de/lib",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lxml2";
-				PRODUCT_BUNDLE_IDENTIFIER = com.flolangka.xmpp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.flo.xmpp;
 				PRODUCT_NAME = FloXMPP;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2943,6 +2944,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2954,6 +2957,7 @@
 				INFOPLIST_FILE = AVIC_AppStoreTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AVIC_AppStore.app/AVIC_AppStore";
 			};
 			name = Debug;
@@ -2962,6 +2966,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2969,6 +2975,7 @@
 				INFOPLIST_FILE = AVIC_AppStoreTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AVIC_AppStore.app/AVIC_AppStore";
 			};
 			name = Release;

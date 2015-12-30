@@ -28,7 +28,7 @@
 			<key>CFBundleURLIconFile</key>
 			<string></string>
 			<key>CFBundleURLName</key>
-			<string>com.flolangka.xmpp</string>
+			<string>com.flo.xmpp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>floxmpp</string>
@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.5</string>
+	<string>1.0.9</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIBackgroundModes</key>

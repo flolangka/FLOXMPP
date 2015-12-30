@@ -13,6 +13,7 @@
 #import "FLOChatListFriendRequestTVC.h"//cell
 #import "FLODataBaseEngin.h"
 #import "FLOChatRecordModel.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 #import "MQChatViewManager.h"
 #import "MQAssetUtil.h"
@@ -23,6 +24,7 @@
 {
     XMPPManager *manager;
     NSMutableArray *dataArr;
+    CALayer *topPromptLayer;
 }
 
 @end
@@ -37,6 +39,11 @@
     UITabBarController *tabBarController = self.tabBarController;
     UITabBarItem *item0 = tabBarController.tabBar.items[0];
     [item0 setTitle:@"消息"];
+    [item0 setSelectedImage:[[UIImage imageNamed:@"tab_recent_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBarController.tabBar.items[0] setSelectedImage:[[UIImage imageNamed:@"tab_buddy_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBarController.tabBar.items[0] setSelectedImage:[[UIImage imageNamed:@"tab_qworld_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    
+    topPromptLayer = [self promptLayer];
     
     dataArr = [NSMutableArray arrayWithObject:@[]];
     manager = [XMPPManager manager];
@@ -68,24 +75,36 @@
         
         return;
     } else {
-        [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [[UIApplication sharedApplication].keyWindow.layer addSublayer:topPromptLayer];
+        [manager autoAuthorizationSuccess:^{
+            AudioServicesPlaySystemSound(1028);
+            [topPromptLayer removeFromSuperlayer];
             
-            [manager autoAuthorizationSuccess:^{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
-                });
-                
-                [self refreshChatRecord];
-            } failure:^(NSString *errorStr){
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:NO];
-                    [MBProgressTool showPromptViewInView:[UIApplication sharedApplication].keyWindow WithTitle:errorStr];
-                });
-            }];
-        });
+            [self refreshChatRecord];
+        } failure:^(NSString *errorStr){
+            [topPromptLayer removeFromSuperlayer];
+            
+            [MBProgressTool showPromptViewInView:[UIApplication sharedApplication].keyWindow WithTitle:errorStr];
+        }];
     }
+}
+
+//连接服务器提示框
+- (CALayer *)promptLayer
+{
+    CALayer *proLayer = [[CALayer alloc] init];
+    proLayer.frame = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 24);
+    proLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.9].CGColor;
+    
+    CATextLayer *textLayer = [[CATextLayer alloc] init];
+    textLayer.frame = CGRectMake(0, 3, [UIScreen mainScreen].bounds.size.width, 21);
+    textLayer.foregroundColor = [UIColor whiteColor].CGColor;
+    textLayer.alignmentMode = @"center";
+    textLayer.fontSize = 13;
+    textLayer.string = @"服务器跑了，正在拼命追赶....";
+    
+    [proLayer addSublayer:textLayer];
+    return proLayer;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,6 +121,11 @@
     
     //删除聊天记录
     [[FLODataBaseEngin shareInstance] resetDatabase];
+    
+    //删除图片、语音数据
+    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
+    [[NSFileManager defaultManager] removeItemAtPath:[docPath stringByAppendingPathComponent:@"voiceRecord"] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[docPath stringByAppendingPathComponent:@"imageRecord"] error:nil];
     
     //跳转到主页面
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;

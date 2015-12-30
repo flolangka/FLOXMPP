@@ -218,7 +218,7 @@ static XMPPManager *manager;
     if (message) {
         NSString *timeInterval = [NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]];
         NSString *msgPrefix = [Message_Prefix_Text stringByAppendingString:timeInterval];
-        [self sendMessage:[msgPrefix stringByAppendingString:message] toUser:userName];
+        [self sendTextMessage:[msgPrefix stringByAppendingString:message] toUser:userName];
     }
     
     [_xmppRoster subscribePresenceToUser:[XMPPJID jidWithUser:userName domain:xmppDomain resource:xmppResource]];
@@ -272,7 +272,7 @@ static XMPPManager *manager;
     }
 }
 
-#pragma mark 收发消息
+#pragma mark 收消息
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
     NSLog(@"XMPP>>>>收到消息>>%@", [message body]);
@@ -288,13 +288,24 @@ static XMPPManager *manager;
         NSString *timeStr = [lastStr substringToIndex:range.location];
         
         //保存聊天记录
+        NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
         NSString *chatRecordMsgBody = @"";
         if ([messageBody hasPrefix:Message_Prefix_Text]) {
             chatRecordMsgBody = [lastStr substringFromIndex:range.location+1];
         } else if ([messageBody hasPrefix:Message_Prefix_Image]) {
             chatRecordMsgBody = @"[图片]";
+            
+            //保存图片到文件夹
+            NSString *imageRecordPath = [docPath stringByAppendingPathComponent:@"imageRecord"];
+            NSData *imageData = [[NSData alloc] initWithBase64EncodedString:[message subject] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            [imageData writeToFile:[imageRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
         } else if ([messageBody hasPrefix:Message_Prefix_Voice]) {
             chatRecordMsgBody = @"[语音]";
+            
+            //保存语音到文件夹
+            NSString *voiceRecordPath = [docPath stringByAppendingPathComponent:@"voiceRecord"];
+            NSData *wavData = [[NSData alloc] initWithBase64EncodedString:[message subject] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            [wavData writeToFile:[voiceRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
         }
         FLOChatRecordModel *chatRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": sourceUser,
                                                                                           @"lastMessage": chatRecordMsgBody,
@@ -314,21 +325,53 @@ static XMPPManager *manager;
     }
 }
 
-- (void)sendMessage:(NSString *)mes toUser:(NSString *)user
+#pragma mark - 发送消息
+- (void)sendMessage:(NSString *)mes attachment:(NSXMLElement *)attachment toUser:(NSString *)user
 {
     NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
     [body setStringValue:mes];
+    
     NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
     [message addAttributeWithName:@"type" stringValue:@"chat"];
     NSString *to = [NSString stringWithFormat:@"%@@%@", user, xmppDomain];
     [message addAttributeWithName:@"to" stringValue:to];
-    [message addChild:body];
-    [_xmppStream sendElement:message];
     
+    [message addChild:body];
+    if (attachment) {
+        [message addChild:attachment];
+    }
+    
+    [_xmppStream sendElement:message];
     FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": _xmppStream.myJID.user,
                                                                                           @"messageTo": user,
                                                                                           @"messageContent": mes}];
     [[FLODataBaseEngin shareInstance] insertChatMessages:@[messageModel]];
+}
+
+- (void)sendTextMessage:(NSString *)mes toUser:(NSString *)user
+{
+    [self sendMessage:mes attachment:nil toUser:user];
+}
+
+- (void)sendImageMessage:(NSString *)mes image:(UIImage *)image toUser:(NSString *)user
+{
+    NSData *data = UIImageJPEGRepresentation(image, 1.0);
+    NSString *imgStr = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    
+    NSXMLElement *imgAttachement = [NSXMLElement elementWithName:@"attachment"];
+    [imgAttachement setStringValue:imgStr];
+    
+    [self sendMessage:mes attachment:imgAttachement toUser:user];
+}
+
+- (void)sendVoiceMessage:(NSString *)mes WavData:(NSData *)wavData toUser:(NSString *)user
+{
+    NSString *voiceStr = [wavData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    
+    NSXMLElement *voiceAttachement = [NSXMLElement elementWithName:@"attachment"];
+    [voiceAttachement setStringValue:voiceStr];
+    
+    [self sendMessage:mes attachment:voiceAttachement toUser:user];
 }
 
 

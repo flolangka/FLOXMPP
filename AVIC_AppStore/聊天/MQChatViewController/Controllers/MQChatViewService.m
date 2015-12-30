@@ -36,6 +36,8 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
 
 {
     NSString *lastMessageBody; //最后一条消息内容
+    NSString *voiceRecordPath;
+    NSString *imageRecordPath;
 }
 
 @end
@@ -47,6 +49,17 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
 - (instancetype)initWithChatUser:(NSString *)userName chatViewWidth:(CGFloat)width
 {
     if (self = [super init]) {
+        //创建录音保存文件夹
+        NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
+        voiceRecordPath = [docPath stringByAppendingPathComponent:@"voiceRecord"];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:voiceRecordPath]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:voiceRecordPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        imageRecordPath = [docPath stringByAppendingPathComponent:@"imageRecord"];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:imageRecordPath]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:imageRecordPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
         self.cellModels = [[NSMutableArray alloc] init];
         self.chatUser = userName;
         self.chatViewWidth = width;
@@ -99,9 +112,7 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
 {
     if ([msg.messageContent hasPrefix:Message_Prefix_Text]) {
         //文字
-        NSString *lastStr = [msg.messageContent substringFromIndex:4];
-        NSRange range = [lastStr rangeOfString:@"]"];
-        MQTextMessage *message = [[MQTextMessage alloc] initWithContent:[lastStr substringFromIndex:range.location+1]];
+        MQTextMessage *message = [[MQTextMessage alloc] initWithContent:[self messageBodyWithMessageContent:msg.messageContent]];
         if ([msg.messageFrom isEqualToString:_chatUser]) {
             message.fromType = MQChatMessageIncoming;
         }
@@ -113,7 +124,7 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
         return cellModel;
     } else if ([msg.messageContent hasPrefix:Message_Prefix_Image]) {
         //图片
-        MQImageMessage *message = [[MQImageMessage alloc] initWithImage:[UIImage imageNamed:@"jpg"]];
+        MQImageMessage *message = [[MQImageMessage alloc] initWithImage:[UIImage imageWithContentsOfFile:[imageRecordPath stringByAppendingPathComponent:[self messageBodyWithMessageContent:msg.messageContent]]]];
         if ([msg.messageFrom isEqualToString:_chatUser]) {
             message.fromType = MQChatMessageIncoming;
         }
@@ -125,9 +136,7 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
         return cellModel;
     } else if ([msg.messageContent hasPrefix:Message_Prefix_Voice]) {
         //声音
-        NSString *lastStr = [msg.messageContent substringFromIndex:4];
-        NSRange range = [lastStr rangeOfString:@"]"];
-        NSData *wavData = [[lastStr substringFromIndex:range.location+1] dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *wavData = [NSData dataWithContentsOfFile:[voiceRecordPath stringByAppendingPathComponent:[self messageBodyWithMessageContent:msg.messageContent]]];
         MQVoiceMessage *message = [[MQVoiceMessage alloc] initWithVoiceData:wavData];
         if ([msg.messageFrom isEqualToString:_chatUser]) {
             message.fromType = MQChatMessageIncoming;
@@ -140,6 +149,13 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
         return cellModel;
     }
     return nil;
+}
+
+- (NSString *)messageBodyWithMessageContent:(NSString *)msg
+{
+    NSString *lastStr = [msg substringFromIndex:4];
+    NSRange range = [lastStr rangeOfString:@"]"];
+    return [lastStr substringFromIndex:range.location+1];
 }
 
 #pragma mark - 收到新消息
@@ -199,7 +215,8 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     //发送
     lastMessageBody = content;
     NSString *prefix = [Message_Prefix_Text stringByAppendingString:[NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]]];
-    [[XMPPManager manager] sendMessage:[prefix stringByAppendingString:content] toUser:_chatUser];
+    
+    [[XMPPManager manager] sendTextMessage:[prefix stringByAppendingString:content] toUser:_chatUser];
     
     //模仿发送成功
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -219,8 +236,11 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     
     //发送
     lastMessageBody = @"[图片]";
+    NSString *imageFileName = [_chatUser stringByAppendingFormat:@"%f.jpg", [[NSDate date] timeIntervalSince1970]];
+    [UIImageJPEGRepresentation(image, 1.0) writeToFile:[imageRecordPath stringByAppendingPathComponent:imageFileName] atomically:YES];
+    
     NSString *prefix = [Message_Prefix_Image stringByAppendingString:[NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]]];
-    [[XMPPManager manager] sendMessage:[prefix stringByAppendingString:@"[图片]"] toUser:_chatUser];
+    [[XMPPManager manager] sendImageMessage:[prefix stringByAppendingString:imageFileName] image:image toUser:_chatUser];
     
     //模仿发送成功
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -233,26 +253,35 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
  * 以AMR格式语音文件的形式，发送语音消息
  * @param filePath AMR格式的语音文件
  */
-- (void)sendVoiceMessageWithAMRFilePath:(NSString *)filePath {
+- (void)sendVoiceMessageWithAMRFilePath:(NSString *)filePath
+{
     //将AMR格式转换成WAV格式，以便使iPhone能播放
-    NSData *wavData = [self convertToWAVDataWithAMRFilePath:filePath];
+    NSString *voiceFileName = [_chatUser stringByAppendingFormat:@"%f.wav", [[NSDate date] timeIntervalSince1970]];
+    [VoiceConverter amrToWav:filePath wavSavePath:[voiceRecordPath stringByAppendingPathComponent:voiceFileName]];
+    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+    
+    NSData *wavData = [NSData dataWithContentsOfFile:[voiceRecordPath stringByAppendingPathComponent:voiceFileName]];
     MQVoiceMessage *message = [[MQVoiceMessage alloc] initWithVoiceData:wavData];
-    [self sendVoiceMessageWithWAVData:wavData voiceMessage:message];
+    [self sendVoiceMessageWithWAVData:wavData voiceMessage:message voiceFileName:voiceFileName];
 }
 
 /**
- * 以WAV格式语音数据的形式，发送语音消息
- * @param wavData WAV格式的语音数据
+ *  发送语音消息
+ *
+ *  @param wavData       wav数据
+ *  @param message       声音消息对象
+ *  @param voiceFileName 声音存储的文件名：user129323103900102.wav
  */
-- (void)sendVoiceMessageWithWAVData:(NSData *)wavData voiceMessage:(MQVoiceMessage *)message{
+- (void)sendVoiceMessageWithWAVData:(NSData *)wavData voiceMessage:(MQVoiceMessage *)message voiceFileName:(NSString *)voiceFileName
+{
     MQVoiceCellModel *cellModel = [[MQVoiceCellModel alloc] initCellModelWithMessage:message cellWidth:self.chatViewWidth delegate:self];
     [self addMessageDateCellAtLastWithCurrentCellModel:cellModel];
     [self addCellModelAndReloadTableViewWithModel:cellModel];
     
-    //声音以字符串发送
+    //声音发送
     lastMessageBody = @"[语音]";
     NSString *prefix = [Message_Prefix_Voice stringByAppendingString:[NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]]];
-    [[XMPPManager manager] sendMessage:[prefix stringByAppendingString:[[NSString alloc] initWithData:wavData encoding:NSUTF8StringEncoding]] toUser:_chatUser];
+    [[XMPPManager manager] sendVoiceMessage:[prefix stringByAppendingString:voiceFileName] WavData:wavData toUser:_chatUser];
     
     //模仿发送成功
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -461,16 +490,6 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
             [self.delegate didUpdateCellModelWithIndexPath:indexPath];
         }
     }
-}
-
-#pragma AMR to WAV转换
-- (NSData *)convertToWAVDataWithAMRFilePath:(NSString *)amrFilePath {
-    NSString *tempPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    tempPath = [tempPath stringByAppendingPathComponent:@"record.wav"];
-    [VoiceConverter amrToWav:amrFilePath wavSavePath:tempPath];
-    NSData *wavData = [NSData dataWithContentsOfFile:tempPath];
-    [[NSFileManager defaultManager] removeItemAtPath:tempPath error:nil];
-    return wavData;
 }
 
 #pragma 更新cellModel中的frame

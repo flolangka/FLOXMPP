@@ -379,7 +379,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FbW-i7-cFu">
-                                            <rect key="frame" x="60" y="8" width="154" height="26"/>
+                                            <rect key="frame" x="60" y="8" width="104" height="26"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="26" id="EmP-FM-I8J"/>
@@ -407,10 +407,10 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OUI-j8-9Ug">
-                                            <rect key="frame" x="222" y="7" width="90" height="26"/>
+                                            <rect key="frame" x="172" y="7" width="140" height="26"/>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="90" id="5Yf-bm-lnI"/>
+                                                <constraint firstAttribute="width" constant="140" id="5Yf-bm-lnI"/>
                                                 <constraint firstAttribute="height" constant="26" id="RUC-BL-Yg6"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
