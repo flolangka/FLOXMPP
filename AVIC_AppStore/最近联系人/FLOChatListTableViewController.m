@@ -70,7 +70,7 @@
     } else {
         [[UIApplication sharedApplication].keyWindow.layer addSublayer:topPromptLayer];
         [manager autoAuthorizationSuccess:^{
-            AudioServicesPlaySystemSound(1028);
+            AudioServicesPlaySystemSound(1055);
             [topPromptLayer removeFromSuperlayer];
             
             [self refreshChatRecord];
