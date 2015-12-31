@@ -217,6 +217,7 @@
 		8434D0D91C3122FB0060C9DD /* MQRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8434D08A1C3122FB0060C9DD /* MQRecordView.m */; };
 		8434D0DA1C3122FB0060C9DD /* MQToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 8434D08D1C3122FB0060C9DD /* MQToast.m */; };
 		8460621C1BB23E5D00FABCB1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8460621B1BB23E5D00FABCB1 /* Images.xcassets */; };
+		84754F1F1C34C0A700C62243 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84754F1E1C34C0A700C62243 /* SystemConfiguration.framework */; };
 		8476A9071C2CD05F00FCB6EC /* FLOChatListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */; };
 		8476A90C1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A90B1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m */; };
 		848A46701C2D2C4A00CA8F0F /* FLODataBaseEngin.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A466F1C2D2C4A00CA8F0F /* FLODataBaseEngin.m */; };
@@ -231,7 +232,6 @@
 		84CFFAAA1C343680001BA811 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CFFAA91C343680001BA811 /* AudioToolbox.framework */; };
 		A513AE8B1A35384500B57CFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A513AE8A1A35384500B57CFD /* main.m */; };
 		A513AE8E1A35384500B57CFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A513AE8D1A35384500B57CFD /* AppDelegate.m */; };
-		A513AEA51A35384500B57CFD /* AVIC_AppStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A513AEA41A35384500B57CFD /* AVIC_AppStoreTests.m */; };
 		A5A115631A523D560077AD06 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A115621A523D560077AD06 /* libxml2.dylib */; };
 		A5A127B91A68ED0E006F7C17 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A127B81A68ED0E006F7C17 /* libz.dylib */; };
 		A5A1B8271A3824260083560A /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A1B81E1A3824260083560A /* FMDatabase.m */; };
@@ -274,16 +274,6 @@
 		A5A7B5971A36FD4500BF4F4E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7B5961A36FD4500BF4F4E /* CFNetwork.framework */; };
 		A5A7B5991A36FD7900BF4F4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7B5981A36FD7900BF4F4E /* CoreGraphics.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		A513AE9F1A35384500B57CFD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A513AE7D1A35384500B57CFD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A513AE841A35384500B57CFD;
-			remoteInfo = AVIC_AppStore;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		840325D41BFCBA6E00EFC1C9 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
@@ -722,6 +712,7 @@
 		8434D08C1C3122FB0060C9DD /* MQToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MQToast.h; sourceTree = "<group>"; };
 		8434D08D1C3122FB0060C9DD /* MQToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MQToast.m; sourceTree = "<group>"; };
 		8460621B1BB23E5D00FABCB1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		84754F1E1C34C0A700C62243 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8476A9051C2CD05F00FCB6EC /* FLOChatListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOChatListTableViewCell.h; path = "最近联系人/FLOChatListTableViewCell.h"; sourceTree = "<group>"; };
 		8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOChatListTableViewCell.m; path = "最近联系人/FLOChatListTableViewCell.m"; sourceTree = "<group>"; };
 		8476A90A1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOChatListFriendRequestTVC.h; path = "最近联系人/FLOChatListFriendRequestTVC.h"; sourceTree = "<group>"; };
@@ -750,9 +741,6 @@
 		A513AE8C1A35384500B57CFD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A513AE8D1A35384500B57CFD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A513AE931A35384500B57CFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A513AE9E1A35384500B57CFD /* AVIC_AppStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AVIC_AppStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A513AEA31A35384500B57CFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A513AEA41A35384500B57CFD /* AVIC_AppStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVIC_AppStoreTests.m; sourceTree = "<group>"; };
 		A5197E1E1A4EA21F008A07CD /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		A5A115621A523D560077AD06 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		A5A127B81A68ED0E006F7C17 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -835,6 +823,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84754F1F1C34C0A700C62243 /* SystemConfiguration.framework in Frameworks */,
 				84CFFAAA1C343680001BA811 /* AudioToolbox.framework in Frameworks */,
 				848BB7A31BA0148200ECC11A /* libiconv.dylib in Frameworks */,
 				8434D0BC1C3122FB0060C9DD /* libopencore-amrnb.a in Frameworks */,
@@ -853,13 +842,6 @@
 				A5A7B5931A36FD3000BF4F4E /* Foundation.framework in Frameworks */,
 				A5A7B5911A36FD2300BF4F4E /* MobileCoreServices.framework in Frameworks */,
 				A5A7B58F1A36FD0900BF4F4E /* CoreTelephony.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A513AE9B1A35384500B57CFD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2220,6 +2202,7 @@
 		84F9ACD41B8AB7BD008FAA61 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84754F1E1C34C0A700C62243 /* SystemConfiguration.framework */,
 				84CFFAA91C343680001BA811 /* AudioToolbox.framework */,
 				84CFFAA71C34362C001BA811 /* AVKit.framework */,
 				84CFFAA51C34361D001BA811 /* AVFoundation.framework */,
@@ -2245,7 +2228,6 @@
 			isa = PBXGroup;
 			children = (
 				A513AE871A35384500B57CFD /* AVIC_AppStore */,
-				A513AEA11A35384500B57CFD /* AVIC_AppStoreTests */,
 				84F9ACD41B8AB7BD008FAA61 /* Frameworks */,
 				A513AE861A35384500B57CFD /* Products */,
 			);
@@ -2255,7 +2237,6 @@
 			isa = PBXGroup;
 			children = (
 				A513AE851A35384500B57CFD /* FloXMPP.app */,
-				A513AE9E1A35384500B57CFD /* AVIC_AppStoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2287,23 +2268,6 @@
 				A513AE891A35384500B57CFD /* Info.plist */,
 				A513AE8A1A35384500B57CFD /* main.m */,
 				A5197E1E1A4EA21F008A07CD /* PrefixHeader.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		A513AEA11A35384500B57CFD /* AVIC_AppStoreTests */ = {
-			isa = PBXGroup;
-			children = (
-				A513AEA41A35384500B57CFD /* AVIC_AppStoreTests.m */,
-				A513AEA21A35384500B57CFD /* Supporting Files */,
-			);
-			path = AVIC_AppStoreTests;
-			sourceTree = "<group>";
-		};
-		A513AEA21A35384500B57CFD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A513AEA31A35384500B57CFD /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2426,24 +2390,6 @@
 			productReference = A513AE851A35384500B57CFD /* FloXMPP.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A513AE9D1A35384500B57CFD /* AVIC_AppStoreTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A513AEAB1A35384500B57CFD /* Build configuration list for PBXNativeTarget "AVIC_AppStoreTests" */;
-			buildPhases = (
-				A513AE9A1A35384500B57CFD /* Sources */,
-				A513AE9B1A35384500B57CFD /* Frameworks */,
-				A513AE9C1A35384500B57CFD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A513AEA01A35384500B57CFD /* PBXTargetDependency */,
-			);
-			name = AVIC_AppStoreTests;
-			productName = AVIC_AppStoreTests;
-			productReference = A513AE9E1A35384500B57CFD /* AVIC_AppStoreTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2462,11 +2408,6 @@
 							};
 						};
 					};
-					A513AE9D1A35384500B57CFD = {
-						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = X928ZDD77C;
-						TestTargetID = A513AE841A35384500B57CFD;
-					};
 				};
 			};
 			buildConfigurationList = A513AE801A35384500B57CFD /* Build configuration list for PBXProject "AVIC_AppStore" */;
@@ -2483,7 +2424,6 @@
 			projectRoot = "";
 			targets = (
 				A513AE841A35384500B57CFD /* AVIC_AppStore */,
-				A513AE9D1A35384500B57CFD /* AVIC_AppStoreTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2500,13 +2440,6 @@
 				8434D08E1C3122FB0060C9DD /* MQChatViewAsset.bundle in Resources */,
 				843321951C2B8298008F52CA /* LaunchScreen.storyboard in Resources */,
 				841D1A281B9BCB8900010DC1 /* build-libidn.sh in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A513AE9C1A35384500B57CFD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2760,23 +2693,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A513AE9A1A35384500B57CFD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A513AEA51A35384500B57CFD /* AVIC_AppStoreTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		A513AEA01A35384500B57CFD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A513AE841A35384500B57CFD /* AVIC_AppStore */;
-			targetProxy = A513AE9F1A35384500B57CFD /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A513AE921A35384500B57CFD /* Main.storyboard */ = {
@@ -2894,14 +2811,14 @@
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/UUChat/VoiceLib",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/MQChatViewController/Vendors/MLAudioRecorder/amr_en_de/lib",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.flo.xmpp;
 				PRODUCT_NAME = FloXMPP;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7s armv7";
+				VALID_ARCHS = "armv7s armv7 arm64";
 			};
 			name = Debug;
 		};
@@ -2936,47 +2853,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7s armv7";
-			};
-			name = Release;
-		};
-		A513AEAC1A35384500B57CFD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = AVIC_AppStoreTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AVIC_AppStore.app/AVIC_AppStore";
-			};
-			name = Debug;
-		};
-		A513AEAD1A35384500B57CFD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = AVIC_AppStoreTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AVIC_AppStore.app/AVIC_AppStore";
+				VALID_ARCHS = "armv7s armv7 arm64";
 			};
 			name = Release;
 		};
@@ -2997,15 +2874,6 @@
 			buildConfigurations = (
 				A513AEA91A35384500B57CFD /* Debug */,
 				A513AEAA1A35384500B57CFD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A513AEAB1A35384500B57CFD /* Build configuration list for PBXNativeTarget "AVIC_AppStoreTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A513AEAC1A35384500B57CFD /* Debug */,
-				A513AEAD1A35384500B57CFD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

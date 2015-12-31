@@ -14,7 +14,7 @@
 static NSString * const xmppHost = @"192.168.1.2";
 static NSString * const xmppResource = @"iOS";
 static NSUInteger xmppPort = 5222;
-
+static NSString * waitSendMessagePath;
 
 @interface XMPPManager()<XMPPStreamDelegate, XMPPRosterMemoryStorageDelegate>
 
@@ -41,6 +41,9 @@ static NSUInteger xmppPort = 5222;
     XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingCoreDataStorage;
     XMPPMessageArchiving *xmppMessageArchiving;
     XMPPRosterMemoryStorage *xmppRosterMemoryStorage;
+    
+    //未发送消息集合
+    NSMutableArray *waitSendMessages;
 }
 
 @end
@@ -57,6 +60,13 @@ static XMPPManager *manager;
         [manager configXMPPStream];
     });
     return manager;
+}
+
+- (void)dealloc
+{
+    if (waitSendMessages && waitSendMessages.count>0) {
+        [waitSendMessages writeToFile:waitSendMessagePath atomically:YES];
+    }
 }
 
 #pragma mark - 连接服务器
@@ -119,6 +129,16 @@ static XMPPManager *manager;
 {
     self.xmppStream = [[XMPPStream alloc] init];
     
+    //读取未发送消息集合
+    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
+    waitSendMessagePath = [docPath stringByAppendingPathComponent:@"waitSendMessageData"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:waitSendMessagePath]) {
+        waitSendMessages = [NSMutableArray arrayWithContentsOfFile:waitSendMessagePath];
+    } else {
+        waitSendMessages = [NSMutableArray array];
+    }
+    
+    //配置
     _xmppStream.hostName = xmppHost;
     _xmppStream.hostPort = xmppPort;
     [_xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
@@ -168,6 +188,16 @@ static XMPPManager *manager;
     //上线
     XMPPPresence *presence = [XMPPPresence presenceWithType:@"available"];
     [_xmppStream sendElement:presence];
+    
+    //登录成功后将未成功发送消息发送出去
+    if (waitSendMessages && waitSendMessages.count>0) {
+        for (NSXMLElement *message in waitSendMessages) {
+            [_xmppStream sendElement:message];
+        }
+        
+        //发送完成后置空
+        waitSendMessages = [NSMutableArray array];
+    }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(DDXMLElement *)error
@@ -296,16 +326,27 @@ static XMPPManager *manager;
             chatRecordMsgBody = @"[图片]";
             
             //保存图片到文件夹
-            NSString *imageRecordPath = [docPath stringByAppendingPathComponent:@"imageRecord"];
-            NSData *imageData = [[NSData alloc] initWithBase64EncodedString:[message subject] options:NSDataBase64DecodingIgnoreUnknownCharacters];
-            [imageData writeToFile:[imageRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
+            for (DDXMLNode *node in message.children) {
+                if ([node.name isEqualToString:@"attachment"]) {
+                    NSData *imageData = [[NSData alloc] initWithBase64EncodedString:node.stringValue options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                    
+                    NSString *imageRecordPath = [docPath stringByAppendingPathComponent:@"imageRecord"];
+                    [imageData writeToFile:[imageRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
+                }
+            }
+            
         } else if ([messageBody hasPrefix:Message_Prefix_Voice]) {
             chatRecordMsgBody = @"[语音]";
             
             //保存语音到文件夹
-            NSString *voiceRecordPath = [docPath stringByAppendingPathComponent:@"voiceRecord"];
-            NSData *wavData = [[NSData alloc] initWithBase64EncodedString:[message subject] options:NSDataBase64DecodingIgnoreUnknownCharacters];
-            [wavData writeToFile:[voiceRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
+            for (DDXMLNode *node in message.children) {
+                if ([node.name isEqualToString:@"attachment"]) {
+                    NSString *voiceRecordPath = [docPath stringByAppendingPathComponent:@"voiceRecord"];
+                    NSData *wavData = [[NSData alloc] initWithBase64EncodedString:node.stringValue options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                    [wavData writeToFile:[voiceRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
+                }
+            }
+            
         }
         FLOChatRecordModel *chatRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": sourceUser,
                                                                                           @"lastMessage": chatRecordMsgBody,
@@ -341,7 +382,13 @@ static XMPPManager *manager;
         [message addChild:attachment];
     }
     
-    [_xmppStream sendElement:message];
+    //如果在线就发送,不在线就先存储
+    if ([_xmppStream isAuthenticated]) {
+        [_xmppStream sendElement:message];
+    } else {
+        
+    }
+
     FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": _xmppStream.myJID.user,
                                                                                           @"messageTo": user,
                                                                                           @"messageContent": mes}];

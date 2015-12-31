@@ -35,14 +35,7 @@
     [super viewDidLoad];
     
     self.title = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
-    
-    UITabBarController *tabBarController = self.tabBarController;
-    UITabBarItem *item0 = tabBarController.tabBar.items[0];
-    [item0 setTitle:@"消息"];
-    [item0 setSelectedImage:[[UIImage imageNamed:@"tab_recent_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    [tabBarController.tabBar.items[0] setSelectedImage:[[UIImage imageNamed:@"tab_buddy_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    [tabBarController.tabBar.items[0] setSelectedImage:[[UIImage imageNamed:@"tab_qworld_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    
+    [self configTabBar];
     topPromptLayer = [self promptLayer];
     
     dataArr = [NSMutableArray arrayWithObject:@[]];
@@ -107,6 +100,17 @@
     return proLayer;
 }
 
+- (void)configTabBar
+{
+    UITabBar *tabBar = self.tabBarController.tabBar;
+    [tabBar setTintColor:[UIColor colorWithRed:0 green:180./255 blue:255./255 alpha:1.0]];
+    UITabBarItem *item0 = tabBar.items[0];
+    [item0 setTitle:@"消息"];
+    [item0 setSelectedImage:[[UIImage imageNamed:@"tab_recent_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBar.items[1] setSelectedImage:[[UIImage imageNamed:@"tab_buddy_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBar.items[2] setSelectedImage:[[UIImage imageNamed:@"tab_qworld_press"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -158,7 +162,7 @@
         FLOChatListFriendRequestTVC *myCell = [tableView dequeueReusableCellWithIdentifier:@"friendRequestCellID" forIndexPath:indexPath];
         NSInteger num = [dataArr[0] count];
         myCell.imageV.image = [UIImage imageNamed:@"conversation_address-book_avatar"];
-        myCell.titleL.text = [NSString stringWithFormat:@"您有%d条好友请求", num];
+        myCell.titleL.text = [NSString stringWithFormat:@"您有%ld条好友请求", num];
         cell = myCell;
     } else {
         FLOChatListTableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:@"chatUserCellID" forIndexPath:indexPath];
@@ -167,7 +171,7 @@
         FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
         myCell.userNameL.text = chatRecord.chatUser;
         myCell.msgL.text = chatRecord.lastMessage;
-        myCell.timeL.text = [NSString stringWithFormat:@"%d:%d %@", chatRecord.lastDate.hour, chatRecord.lastDate.minute, chatRecord.lastDate.stringYearMonthDayCompareToday];
+        myCell.timeL.text = [NSString stringWithFormat:@"%ld:%ld %@", chatRecord.lastDate.hour, chatRecord.lastDate.minute, chatRecord.lastDate.stringYearMonthDayCompareToday];
         
         cell = myCell;
     }

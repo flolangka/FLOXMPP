@@ -99,9 +99,12 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     for (int i = 0; i < messages.count; i++) {
         FLOChatMessageModel *msg = messages[i];
         id<MQCellModelProtocol> cellModel = [self cellModelWithChatMessageModel:msg];
-        
         if (!cellModel) {
             continue;
+        }
+        
+        if ([cellModel isKindOfClass:[MQVoiceCellModel class]]) {
+            [(MQVoiceCellModel *)cellModel setIsPlayed:YES];
         }
         [self addMessageDateCellAtLastWithCurrentCellModel:cellModel];
         [_cellModels addObject:cellModel];
@@ -218,7 +221,10 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     
     [[XMPPManager manager] sendTextMessage:[prefix stringByAppendingString:content] toUser:_chatUser];
     
-    //模仿发送成功
+    //在线时发送成功
+    if (![[XMPPManager manager].xmppStream isAuthenticated]) {
+        return;
+    }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         cellModel.sendStatus = MQChatMessageSendStatusSuccess;
         [self reloadChatTableView];
@@ -243,6 +249,9 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     [[XMPPManager manager] sendImageMessage:[prefix stringByAppendingString:imageFileName] image:image toUser:_chatUser];
     
     //模仿发送成功
+    if (![[XMPPManager manager].xmppStream isAuthenticated]) {
+        return;
+    }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         cellModel.sendStatus = MQChatMessageSendStatusSuccess;
         [self reloadChatTableView];
@@ -284,6 +293,9 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     [[XMPPManager manager] sendVoiceMessage:[prefix stringByAppendingString:voiceFileName] WavData:wavData toUser:_chatUser];
     
     //模仿发送成功
+    if (![[XMPPManager manager].xmppStream isAuthenticated]) {
+        return;
+    }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         cellModel.sendStatus = MQChatMessageSendStatusSuccess;
         [self reloadChatTableView];
