@@ -453,6 +453,11 @@
                                 <action selector="logoutAction:" destination="iPw-Wn-p3u" id="UPk-Wm-Pzp"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="FLEX" id="DgE-Q1-De6">
+                            <connections>
+                                <action selector="FLEXAction:" destination="iPw-Wn-p3u" id="Fg8-Ga-98S"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xuv-Qv-XFK" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -14,6 +14,7 @@
 #import "FLODataBaseEngin.h"
 #import "FLOChatRecordModel.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import <FLEXManager.h>
 
 #import "MQChatViewManager.h"
 #import "MQAssetUtil.h"
@@ -135,6 +136,10 @@
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     keyWindow.rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDLoginVC"];
     [keyWindow makeKeyAndVisible];
+}
+
+- (IBAction)FLEXAction:(UIBarButtonItem *)sender {
+    [[FLEXManager sharedManager] showExplorer];
 }
 
 #pragma mark - 获取chatRecord

@@ -290,7 +290,7 @@
     if (!configuration) {
         NSString *configurationIdentifier = [decoder decodeObjectOfClass:[NSString class] forKey:@"identifier"];
         if (configurationIdentifier) {
-            configuration = [NSURLSessionConfiguration backgroundSessionConfiguration:configurationIdentifier];
+            configuration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:configurationIdentifier];
         }
     }
 

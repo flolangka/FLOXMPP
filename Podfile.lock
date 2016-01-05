@@ -1,0 +1,10 @@
+PODS:
+  - FLEX (2.2.0)
+
+DEPENDENCIES:
+  - FLEX (~> 2.0)
+
+SPEC CHECKSUMS:
+  FLEX: bc8a4fb887ed5d3cdf7c2f3bd665f7bb1647cc58
+
+COCOAPODS: 0.37.2

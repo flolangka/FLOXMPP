@@ -54,7 +54,7 @@ static NSString *dataBasePath;
 
 - (NSArray *)selectAllChatMessagesWithChatUser:(NSString *)chatUser
 {
-    NSString *sql = [NSString stringWithFormat:@"select * from ChatMessage where messageFrom = '%@' or messageTo = '%@' limit 20", chatUser, chatUser];
+    NSString *sql = [NSString stringWithFormat:@"select * from ChatMessage where messageFrom = '%@' or messageTo = '%@'", chatUser, chatUser];
     return [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
         return [[FLOChatMessageModel alloc] initWithDictionary:[rs resultDictionary]];
     }];

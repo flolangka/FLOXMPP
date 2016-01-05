@@ -220,6 +220,7 @@
 		84754F1F1C34C0A700C62243 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84754F1E1C34C0A700C62243 /* SystemConfiguration.framework */; };
 		8476A9071C2CD05F00FCB6EC /* FLOChatListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */; };
 		8476A90C1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A90B1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m */; };
+		847DA2431C3B543600B453D3 /* libPods-AVIC_AppStore-FLEX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 847DA2421C3B543600B453D3 /* libPods-AVIC_AppStore-FLEX.a */; };
 		848A46701C2D2C4A00CA8F0F /* FLODataBaseEngin.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A466F1C2D2C4A00CA8F0F /* FLODataBaseEngin.m */; };
 		848A46761C2D2CC700CA8F0F /* FLOChatMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A46731C2D2CC700CA8F0F /* FLOChatMessageModel.m */; };
 		848A46771C2D2CC700CA8F0F /* FLOChatRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A46751C2D2CC700CA8F0F /* FLOChatRecordModel.m */; };
@@ -273,9 +274,12 @@
 		A5A7B5951A36FD3600BF4F4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7B5941A36FD3600BF4F4E /* UIKit.framework */; };
 		A5A7B5971A36FD4500BF4F4E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7B5961A36FD4500BF4F4E /* CFNetwork.framework */; };
 		A5A7B5991A36FD7900BF4F4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7B5981A36FD7900BF4F4E /* CoreGraphics.framework */; };
+		A8610D6B10C860FAADBA4D62 /* libPods-AVIC_AppStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E49B6A75446C4B54811C70 /* libPods-AVIC_AppStore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		44DE36933412BE74072F781F /* Pods-AVIC_AppStore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVIC_AppStore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AVIC_AppStore/Pods-AVIC_AppStore.debug.xcconfig"; sourceTree = "<group>"; };
+		59E49B6A75446C4B54811C70 /* libPods-AVIC_AppStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AVIC_AppStore.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		840325D41BFCBA6E00EFC1C9 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
 		841C6EB91C2BBFAF00933A75 /* FLOChatListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOChatListTableViewController.h; path = "最近联系人/FLOChatListTableViewController.h"; sourceTree = "<group>"; };
 		841C6EBA1C2BBFAF00933A75 /* FLOChatListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOChatListTableViewController.m; path = "最近联系人/FLOChatListTableViewController.m"; sourceTree = "<group>"; };
@@ -717,6 +721,7 @@
 		8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOChatListTableViewCell.m; path = "最近联系人/FLOChatListTableViewCell.m"; sourceTree = "<group>"; };
 		8476A90A1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLOChatListFriendRequestTVC.h; path = "最近联系人/FLOChatListFriendRequestTVC.h"; sourceTree = "<group>"; };
 		8476A90B1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLOChatListFriendRequestTVC.m; path = "最近联系人/FLOChatListFriendRequestTVC.m"; sourceTree = "<group>"; };
+		847DA2421C3B543600B453D3 /* libPods-AVIC_AppStore-FLEX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AVIC_AppStore-FLEX.a"; path = "Pods/../build/Debug-iphoneos/libPods-AVIC_AppStore-FLEX.a"; sourceTree = "<group>"; };
 		848A466E1C2D2C4A00CA8F0F /* FLODataBaseEngin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLODataBaseEngin.h; path = "数据库/FLODataBaseEngin.h"; sourceTree = "<group>"; };
 		848A466F1C2D2C4A00CA8F0F /* FLODataBaseEngin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLODataBaseEngin.m; path = "数据库/FLODataBaseEngin.m"; sourceTree = "<group>"; };
 		848A46721C2D2CC700CA8F0F /* FLOChatMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLOChatMessageModel.h; sourceTree = "<group>"; };
@@ -735,6 +740,7 @@
 		84CFFAA51C34361D001BA811 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		84CFFAA71C34362C001BA811 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		84CFFAA91C343680001BA811 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9E535BAA520908A5D8876288 /* Pods-AVIC_AppStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVIC_AppStore.release.xcconfig"; path = "Pods/Target Support Files/Pods-AVIC_AppStore/Pods-AVIC_AppStore.release.xcconfig"; sourceTree = "<group>"; };
 		A513AE851A35384500B57CFD /* FloXMPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloXMPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A513AE891A35384500B57CFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A513AE8A1A35384500B57CFD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -823,6 +829,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847DA2431C3B543600B453D3 /* libPods-AVIC_AppStore-FLEX.a in Frameworks */,
 				84754F1F1C34C0A700C62243 /* SystemConfiguration.framework in Frameworks */,
 				84CFFAAA1C343680001BA811 /* AudioToolbox.framework in Frameworks */,
 				848BB7A31BA0148200ECC11A /* libiconv.dylib in Frameworks */,
@@ -842,12 +849,22 @@
 				A5A7B5931A36FD3000BF4F4E /* Foundation.framework in Frameworks */,
 				A5A7B5911A36FD2300BF4F4E /* MobileCoreServices.framework in Frameworks */,
 				A5A7B58F1A36FD0900BF4F4E /* CoreTelephony.framework in Frameworks */,
+				A8610D6B10C860FAADBA4D62 /* libPods-AVIC_AppStore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		251EFAE3320B21DC66EEE863 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				44DE36933412BE74072F781F /* Pods-AVIC_AppStore.debug.xcconfig */,
+				9E535BAA520908A5D8876288 /* Pods-AVIC_AppStore.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		841C6EB81C2BBF7300933A75 /* 最近联系人 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2202,6 +2219,7 @@
 		84F9ACD41B8AB7BD008FAA61 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				847DA2421C3B543600B453D3 /* libPods-AVIC_AppStore-FLEX.a */,
 				84754F1E1C34C0A700C62243 /* SystemConfiguration.framework */,
 				84CFFAA91C343680001BA811 /* AudioToolbox.framework */,
 				84CFFAA71C34362C001BA811 /* AVKit.framework */,
@@ -2220,6 +2238,7 @@
 				A5A7B5921A36FD3000BF4F4E /* Foundation.framework */,
 				A5A7B5901A36FD2300BF4F4E /* MobileCoreServices.framework */,
 				A5A7B58E1A36FD0900BF4F4E /* CoreTelephony.framework */,
+				59E49B6A75446C4B54811C70 /* libPods-AVIC_AppStore.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2230,6 +2249,7 @@
 				A513AE871A35384500B57CFD /* AVIC_AppStore */,
 				84F9ACD41B8AB7BD008FAA61 /* Frameworks */,
 				A513AE861A35384500B57CFD /* Products */,
+				251EFAE3320B21DC66EEE863 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2377,9 +2397,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A513AEA81A35384500B57CFD /* Build configuration list for PBXNativeTarget "AVIC_AppStore" */;
 			buildPhases = (
+				F212631F35086F5F8F872D9B /* Check Pods Manifest.lock */,
 				A513AE811A35384500B57CFD /* Sources */,
 				A513AE821A35384500B57CFD /* Frameworks */,
 				A513AE831A35384500B57CFD /* Resources */,
+				82EED96B64B6E3498E76517F /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2444,6 +2466,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		82EED96B64B6E3498E76517F /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AVIC_AppStore/Pods-AVIC_AppStore-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F212631F35086F5F8F872D9B /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A513AE811A35384500B57CFD /* Sources */ = {
@@ -2789,6 +2844,7 @@
 		};
 		A513AEA91A35384500B57CFD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 44DE36933412BE74072F781F /* Pods-AVIC_AppStore.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2803,13 +2859,14 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = AVIC_AppStore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/libidn",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/UUChat/VoiceLib",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/MQChatViewController/Vendors/MLAudioRecorder/amr_en_de/lib",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
@@ -2818,12 +2875,13 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7s armv7 arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		A513AEAA1A35384500B57CFD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E535BAA520908A5D8876288 /* Pods-AVIC_AppStore.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2838,13 +2896,14 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = AVIC_AppStore/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AVIC_AppStore/3rd_Class/libidn",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/UUChat/VoiceLib",
 					"$(PROJECT_DIR)/AVIC_AppStore/聊天/MQChatViewController/Vendors/MLAudioRecorder/amr_en_de/lib",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lxml2";
@@ -2853,7 +2912,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7s armv7 arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
