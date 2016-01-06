@@ -76,11 +76,11 @@ static CGFloat const kMQChatViewInputBarHeight = 50.0;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.view endEditing:true];
-    
     //退出聊天时保存chatRecord
     [chatViewService saveChatRecord];
+    
+    [super viewWillDisappear:animated];
+    [self.view endEditing:true];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

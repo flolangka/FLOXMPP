@@ -49,9 +49,21 @@ static NSString *dataBasePath;
 - (NSArray *)selectAllChatMessagesWithChatUser:(NSString *)chatUser
 {
     NSString *sql = [NSString stringWithFormat:@"select * from ChatMessage where messageFrom = '%@' or messageTo = '%@'", chatUser, chatUser];
-    return [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
+    
+    NSArray *userMsgs = [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
         return [[FLOChatMessageModel alloc] initWithDictionary:[rs resultDictionary]];
     }];
+    NSMutableArray *messages =[NSMutableArray arrayWithArray:userMsgs];
+    
+    //去掉群聊消息
+    for (FLOChatMessageModel *msg in userMsgs) {
+        BOOL unGroupMessage = [msg.messageTo isEqualToString:chatUser] || [msg.messageTo isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"xmppUserNaem"]];
+        if (!unGroupMessage) {
+            [messages removeObject:msg];
+        }
+    }
+    
+    return messages;
 }
 
 - (NSArray *)selectAllChatMessagesWithChatRoom:(NSString *)roomName
