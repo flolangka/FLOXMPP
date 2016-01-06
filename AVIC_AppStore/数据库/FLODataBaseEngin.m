@@ -17,16 +17,10 @@ static NSString *dataBasePath;
 @implementation FLODataBaseEngin
 
 #pragma mark - 聊天用户记录
-//CREATE TABLE ChatRecord(ID integer PRIMARY KEY, chatUser text, lastMessage text, lastTime text);
+//CREATE TABLE ChatRecord(ID integer PRIMARY KEY, chatUser text, chatRoom text, lastMessage text, lastTime text);
 - (void)saveChatRecord:(FLOChatRecordModel *)chatRecord
 {
-    NSString *sql = [NSString stringWithFormat:@"select * from ChatRecord where chatUser = '%@'", chatRecord.chatUser];
-    NSArray *oldRecords = [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
-        return [[FLOChatRecordModel alloc] initWithDictionary:[rs resultDictionary]];
-    }];
-    if (oldRecords && oldRecords.count > 0) {
-        [self executeUpdateSQLStr:[NSString stringWithFormat:@"delete from ChatRecord where chatUser = '%@'", chatRecord.chatUser]];
-    }
+    [self executeUpdateSQLStr:[NSString stringWithFormat:@"delete from ChatRecord where chatUser = '%@' or chatRoom = '%@'", chatRecord.chatUser, chatRecord.chatRoom]];
     
     NSArray *insertArr = @[[chatRecord infoDictionary]];
     [self insert2Table:@"ChatRecord" values:insertArr];
@@ -34,7 +28,7 @@ static NSString *dataBasePath;
 
 - (NSArray *)selectAllChatRecords
 {
-    NSString *sql = @"select * from ChatRecord";
+    NSString *sql = @"select * from ChatRecord order by ID desc";
     return [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
         return [[FLOChatRecordModel alloc] initWithDictionary:[rs resultDictionary]];
     }];
@@ -58,6 +52,27 @@ static NSString *dataBasePath;
     return [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
         return [[FLOChatMessageModel alloc] initWithDictionary:[rs resultDictionary]];
     }];
+}
+
+- (NSArray *)selectAllChatMessagesWithChatRoom:(NSString *)roomName
+{
+    NSString *sql = [NSString stringWithFormat:@"select * from ChatMessage where messageTo = '%@'", roomName];
+    return [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
+        return [[FLOChatMessageModel alloc] initWithDictionary:[rs resultDictionary]];
+    }];
+}
+
+- (BOOL)messageIsExits:(FLOChatMessageModel *)message
+{
+    NSString *sql = [NSString stringWithFormat:@"select * from ChatMessage where messageFrom = '%@' and messageTo = '%@' and messageContent = '%@'", message.messageFrom, message.messageTo, message.messageContent];
+    NSArray *oldRecords = [self selectDataWithSQLString:sql parseResult:^NSObject *(FMResultSet *rs) {
+        return [[FLOChatMessageModel alloc] initWithDictionary:[rs resultDictionary]];
+    }];
+    if (oldRecords && oldRecords.count > 0) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 

@@ -35,6 +35,8 @@ NSString * const MQAudioPlayerDidInterruptNotification = @"MQAudioPlayerDidInter
 }
 
 - (void)setConfigToDefault {
+    self.isGroupChat = NO;
+    
     self.isCustomizedChatViewFrame  = false;
     self.chatViewFrame              = [MQChatDeviceUtil getDeviceScreenRect];
     self.chatViewControllerPoint    = CGPointMake(0, 0);

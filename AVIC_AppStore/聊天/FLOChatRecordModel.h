@@ -11,6 +11,7 @@
 @interface FLOChatRecordModel : NSObject
 
 @property (nonatomic, copy) NSString *chatUser;
+@property (nonatomic, copy) NSString *chatRoom;
 @property (nonatomic, copy) NSString *lastMessage;
 @property (nonatomic, strong) NSDate *lastDate;
 

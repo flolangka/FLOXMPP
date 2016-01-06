@@ -18,6 +18,10 @@ static NSString * const xmppDomain = @"192.168.1.2";    //需要与host一致否
 @property (nonatomic, strong) XMPPRoster *xmppRoster;
 @property (nonatomic, strong) NSArray *xmppMyFriends;
 @property (nonatomic, strong) NSMutableArray *friendRequests;
+@property (nonatomic, strong) NSArray *xmppRooms;
+
+//加入的聊天室名,退出程序后加入的聊天室都退出了，所以每次都会重新加入
+@property (nonatomic, strong) NSMutableArray *didJoinRooms;;
 
 @property (nonatomic, copy) void (^receiveFriendRequestBlock)(XMPPManager *);
 @property (nonatomic, copy) void (^receiveMessageBlock)(FLOChatMessageModel *);
@@ -47,5 +51,9 @@ static NSString * const xmppDomain = @"192.168.1.2";    //需要与host一致否
 - (void)sendImageMessage:(NSString *)mes image:(UIImage *)image toUser:(NSString *)user;
 - (void)sendVoiceMessage:(NSString *)mes WavData:(NSData *)wavData toUser:(NSString *)user;
 
+
+//获取群组列表
+- (void)fetchXMPPRoomListSuccess:(void(^)())success;
+- (void)joinOrCreateXMPPRoom:(NSString *)roomName;
 
 @end

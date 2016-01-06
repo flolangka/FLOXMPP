@@ -123,7 +123,11 @@ static CGFloat const kMQChatViewInputBarHeight = 50.0;
 
 #pragma 初始化viewModel
 - (void)initchatViewService {
-    chatViewService = [[MQChatViewService alloc] initWithChatUser:self.title chatViewWidth:self.chatTableView.frame.size.width];
+    if (chatViewConfig.isGroupChat) {
+        chatViewService = [[MQChatViewService alloc] initWithChatRoom:self.title chatViewWidth:self.chatTableView.frame.size.width];
+    } else {
+        chatViewService = [[MQChatViewService alloc] initWithChatUser:self.title chatViewWidth:self.chatTableView.frame.size.width];
+    }
     chatViewService.delegate = self;
 }
 

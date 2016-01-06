@@ -645,12 +645,27 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="kB1-dY-vw3">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="XMPPRoomCellID" textLabel="5In-nf-L7W" imageView="cCS-iI-l2i" style="IBUITableViewCellStyleDefault" id="kB1-dY-vw3">
                                 <rect key="frame" x="0.0" y="92" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kB1-dY-vw3" id="pbu-H9-05j">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5In-nf-L7W">
+                                            <rect key="frame" x="73" y="0.0" width="232" height="43"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="aio_voiceChange_effect_2" id="cCS-iI-l2i">
+                                            <rect key="frame" x="15" y="0.0" width="43" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </imageView>
+                                    </subviews>
                                     <animations/>
                                 </tableViewCellContentView>
                                 <animations/>
@@ -661,7 +676,13 @@
                             <outlet property="delegate" destination="U1O-cz-riP" id="zxb-gN-ox1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="群组" id="brF-nj-OYB"/>
+                    <navigationItem key="navigationItem" title="聊天室" id="brF-nj-OYB">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="QpB-FT-Xu4">
+                            <connections>
+                                <action selector="addGroupAction:" destination="U1O-cz-riP" id="QbV-He-Nam"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CSy-ms-bK5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -809,11 +830,11 @@
             </objects>
             <point key="canvasLocation" x="1580" y="1374"/>
         </scene>
-        <!--群组-->
+        <!--聊天室-->
         <scene sceneID="fvO-9K-3tL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fOx-Yg-Krs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="群组" image="tab_qworld_nor" selectedImage="tab_qworld_press" id="Rs3-on-8lr"/>
+                    <tabBarItem key="tabBarItem" title="聊天室" image="tab_qworld_nor" selectedImage="tab_qworld_press" id="Rs3-on-8lr"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="sl3-w0-ivg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -838,6 +859,7 @@
     </scenes>
     <resources>
         <image name="Chat" width="256" height="256"/>
+        <image name="aio_voiceChange_effect_2" width="60" height="60"/>
         <image name="device_bind_success" width="23" height="23"/>
         <image name="file_stop" width="24" height="24"/>
         <image name="goback" width="13" height="22"/>

@@ -23,6 +23,9 @@ extern NSString * const MQAudioPlayerDidInterruptNotification;
  */
 @interface MQChatViewConfig : NSObject
 
+//是否群聊
+@property (nonatomic, assign) BOOL isGroupChat;
+
 @property (nonatomic, assign) BOOL isCustomizedChatViewFrame;
 @property (nonatomic, assign) CGRect chatViewFrame;
 @property (nonatomic, assign) CGPoint chatViewControllerPoint;

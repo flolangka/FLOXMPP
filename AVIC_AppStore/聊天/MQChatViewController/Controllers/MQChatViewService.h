@@ -57,7 +57,11 @@
  */
 @interface MQChatViewService : NSObject
 
+//单聊对象
 @property (nonatomic, copy) NSString *chatUser;
+
+//群聊群组名称
+@property (nonatomic, copy) NSString *chatRoom;
 
 /** MQChatViewService的委托 */
 @property (nonatomic, weak) id<MQChatViewServiceDelegate> delegate;
@@ -69,6 +73,7 @@
 @property (nonatomic, assign) CGFloat chatViewWidth;
 
 - (instancetype)initWithChatUser:(NSString *)userName chatViewWidth:(CGFloat)width;
+- (instancetype)initWithChatRoom:(NSString *)roomName chatViewWidth:(CGFloat)width;
 
 - (void)saveChatRecord;
 

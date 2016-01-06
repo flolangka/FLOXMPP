@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class FLOChatRecordModel;
+@class FLOChatMessageModel;
 
 @interface FLODataBaseEngin : NSObject
 
@@ -24,5 +25,8 @@
 //聊天消息记录
 - (void)insertChatMessages:(NSArray *)chatMessages;
 - (NSArray *)selectAllChatMessagesWithChatUser:(NSString *)chatUser;
+
+- (BOOL)messageIsExits:(FLOChatMessageModel *)message;
+- (NSArray *)selectAllChatMessagesWithChatRoom:(NSString *)roomName;
 
 @end

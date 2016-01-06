@@ -29,6 +29,8 @@
  */
 - (MQChatViewController *)presentMQChatViewControllerInViewController:(UIViewController *)viewController;
 
+- (void)setGroupChat:(BOOL)groupChat;
+
 /**
  * 将客服聊天界面移除
  */

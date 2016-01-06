@@ -110,6 +110,11 @@
     [chatViewController dismissChatViewController];
 }
 
+- (void)setGroupChat:(BOOL)groupChat
+{
+    chatViewConfig.isGroupChat = groupChat;
+}
+
 - (void)enableCustomChatViewFrame:(BOOL)enable {
     chatViewConfig.isCustomizedChatViewFrame = enable;
 }

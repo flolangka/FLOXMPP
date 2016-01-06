@@ -14,7 +14,8 @@
 {
     self = [super init];
     if (self) {
-        _chatUser = infoDic[@"chatUser"];
+        _chatUser = infoDic[@"chatUser"] ? : @"";
+        _chatRoom = infoDic[@"chatRoom"] ? : @"";
         _lastMessage = infoDic[@"lastMessage"];
         _lastDate = [NSDate dateWithTimeIntervalSince1970:[infoDic[@"lastTime"] doubleValue]];
     }
@@ -24,6 +25,7 @@
 - (NSDictionary *)infoDictionary
 {
     return @{@"chatUser": _chatUser,
+             @"chatRoom": _chatRoom,
              @"lastMessage": _lastMessage,
              @"lastTime": [NSString stringWithFormat:@"%f", [_lastDate timeIntervalSince1970]]};
 }

@@ -7,8 +7,16 @@
 //
 
 #import "FLOGroupListTableViewController.h"
+#import "XMPPManager.h"
+#import "MQChatViewManager.h"
 
 @interface FLOGroupListTableViewController ()
+
+{
+    XMPPManager *manager;
+}
+
+@property (nonatomic, strong) NSArray *dataArr;
 
 @end
 
@@ -17,39 +25,109 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    manager = [XMPPManager manager];
+    [self configDataArrWithRoomList:manager.xmppRooms];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [manager fetchXMPPRoomListSuccess:^() {
+        [self configDataArrWithRoomList:manager.xmppRooms];
+        [self.tableView reloadData];
+    }];
+}
+
+//对聊天室分已加入和未加入
+- (void)configDataArrWithRoomList:(NSArray *)roomList
+{
+    if (roomList.count < 1) {
+        self.dataArr = @[@[], @[]];
+        return;
+    }
+    
+    NSMutableArray *didJoinRooms = [NSMutableArray array];
+    NSMutableArray *waitJoinRooms = [NSMutableArray array];
+    
+    if (manager.didJoinRooms.count < 1) {
+        waitJoinRooms = [NSMutableArray arrayWithArray:roomList];
+    } else {
+        for (NSString *roomName in roomList) {
+            if ([manager.didJoinRooms containsObject:roomName]) {
+                [didJoinRooms addObject:roomName];
+            } else {
+                [waitJoinRooms addObject:roomName];
+            }
+        }
+    }
+    
+    self.dataArr = @[didJoinRooms, waitJoinRooms];
+}
+
+//创建聊天室
+- (IBAction)addGroupAction:(UIBarButtonItem *)sender {
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"新建群聊" message:@"请输入群名称" preferredStyle:UIAlertControllerStyleAlert];
+    [alertC addTextFieldWithConfigurationHandler:nil];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *createAction = [UIAlertAction actionWithTitle:@"创建" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        NSString *roomName = alertC.textFields[0].text;
+        if ([_dataArr[0] containsObject:roomName] || [_dataArr[1] containsObject:roomName]) {
+            [MBProgressTool showPromptViewInView:[UIApplication sharedApplication].keyWindow WithTitle:@"聊天室已存在"];
+        } else {
+            [manager joinOrCreateXMPPRoom:roomName];
+        }
+    }];
+    
+    [alertC addAction:action];
+    [alertC addAction:createAction];
+    
+    [self presentViewController:alertC animated:YES completion:nil];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return [_dataArr[section] count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"XMPPRoomCellID" forIndexPath:indexPath];
     
-    // Configure the cell...
+    cell.textLabel.text = _dataArr[indexPath.section][indexPath.row];
     
     return cell;
 }
-*/
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return section == 0 ? @"已加入聊天室" : @"未加入聊天室";
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 1) {
+        //加入群聊
+        [manager joinOrCreateXMPPRoom:_dataArr[1][indexPath.row]];
+    } else {
+        //开始群聊
+        MQChatViewManager *chatViewManager = [[MQChatViewManager alloc] init];
+        [chatViewManager setNavTitleText:_dataArr[0][indexPath.row]];
+        [chatViewManager setGroupChat:YES];
+        [chatViewManager enableRoundAvatar:YES];
+        [chatViewManager setoutgoingDefaultAvatarImage:[UIImage imageNamed:@"call_list_qcall_entry"]];
+        [chatViewManager setincomingDefaultAvatarImage:[UIImage imageNamed:@"taylor_swift"]];
+        [chatViewManager pushMQChatViewControllerInViewController:self];
+    }
+}
 
 /*
 // Override to support conditional editing of the table view.

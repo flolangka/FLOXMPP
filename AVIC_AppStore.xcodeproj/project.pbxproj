@@ -221,6 +221,7 @@
 		8476A9071C2CD05F00FCB6EC /* FLOChatListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A9061C2CD05F00FCB6EC /* FLOChatListTableViewCell.m */; };
 		8476A90C1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8476A90B1C2CD13C00FCB6EC /* FLOChatListFriendRequestTVC.m */; };
 		847DA2431C3B543600B453D3 /* libPods-AVIC_AppStore-FLEX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 847DA2421C3B543600B453D3 /* libPods-AVIC_AppStore-FLEX.a */; };
+		847DA2441C3B9F1F00B453D3 /* XMPPRoomMemoryStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 841D1ABA1B9BCBAD00010DC1 /* XMPPRoomMemoryStorage.m */; };
 		848A46701C2D2C4A00CA8F0F /* FLODataBaseEngin.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A466F1C2D2C4A00CA8F0F /* FLODataBaseEngin.m */; };
 		848A46761C2D2CC700CA8F0F /* FLOChatMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A46731C2D2CC700CA8F0F /* FLOChatMessageModel.m */; };
 		848A46771C2D2CC700CA8F0F /* FLOChatRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 848A46751C2D2CC700CA8F0F /* FLOChatRecordModel.m */; };
@@ -2505,6 +2506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847DA2441C3B9F1F00B453D3 /* XMPPRoomMemoryStorage.m in Sources */,
 				841D1BB71B9BCBAE00010DC1 /* XMPPvCardTempModule.m in Sources */,
 				841D1B9C1B9BCBAD00010DC1 /* XMPPLastActivity.m in Sources */,
 				841D1BD91B9BCBAE00010DC1 /* XMPPStreamManagementStanzas.m in Sources */,

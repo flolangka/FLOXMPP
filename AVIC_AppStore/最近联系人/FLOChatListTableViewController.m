@@ -171,10 +171,15 @@
         cell = myCell;
     } else {
         FLOChatListTableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:@"chatUserCellID" forIndexPath:indexPath];
-        myCell.iconImageV.image = [UIImage imageNamed:@"call_list_qcall_entry"];
         
         FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
-        myCell.userNameL.text = chatRecord.chatUser;
+        if (chatRecord.chatUser.length > 0) {
+            myCell.userNameL.text = chatRecord.chatUser;
+            myCell.iconImageV.image = [UIImage imageNamed:@"call_list_qcall_entry"];
+        } else {
+            myCell.userNameL.text = chatRecord.chatRoom;
+            myCell.iconImageV.image = [UIImage imageNamed:@"aio_voiceChange_effect_2"];
+        }
         myCell.msgL.text = chatRecord.lastMessage;
         myCell.timeL.text = [NSString stringWithFormat:@"%ld:%ld %@", chatRecord.lastDate.hour, chatRecord.lastDate.minute, chatRecord.lastDate.stringYearMonthDayCompareToday];
         
@@ -196,6 +201,7 @@
     
     if (indexPath.row == 0 && [dataArr[0] count]>0) {
         FLOFriendRequestTVC *friendRequestTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDFiendRequestTV"];
+        friendRequestTVC.hidesBottomBarWhenPushed = YES;
         friendRequestTVC.dataArr = [NSMutableArray arrayWithArray:dataArr[0]];
         [self.navigationController pushViewController:friendRequestTVC animated:YES];
     } else if (indexPath.row > 0) {
@@ -203,7 +209,14 @@
         FLOChatRecordModel *chatRecord = dataArr[indexPath.row];
         
         MQChatViewManager *chatViewManager = [[MQChatViewManager alloc] init];
-        [chatViewManager setNavTitleText:chatRecord.chatUser];
+        if (chatRecord.chatUser.length > 0) {
+            [chatViewManager setNavTitleText:chatRecord.chatUser];
+        } else {
+            [manager joinOrCreateXMPPRoom:chatRecord.chatRoom];
+            
+            [chatViewManager setGroupChat:YES];
+            [chatViewManager setNavTitleText:chatRecord.chatRoom];
+        }
         [chatViewManager enableRoundAvatar:YES];
         [chatViewManager setoutgoingDefaultAvatarImage:[UIImage imageNamed:@"call_list_qcall_entry"]];
         [chatViewManager setincomingDefaultAvatarImage:[UIImage imageNamed:@"taylor_swift"]];

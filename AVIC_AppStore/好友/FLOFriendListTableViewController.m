@@ -17,7 +17,7 @@
 
 {
     XMPPManager *manager;
-    NSArray *dataArr;
+    NSMutableArray *dataArr;
 }
 
 @end
@@ -30,15 +30,33 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     manager = [XMPPManager manager];
-    dataArr = manager.xmppMyFriends;
+    [self configDataArrWithFriendList:manager.xmppMyFriends];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    dataArr = manager.xmppMyFriends;
+    [self configDataArrWithFriendList:manager.xmppMyFriends];
     [self.tableView reloadData];
+}
+
+- (void)configDataArrWithFriendList:(NSArray *)friendList
+{
+    dataArr = [NSMutableArray arrayWithArray:friendList];
+    
+    for (int i=0; i < friendList.count; i++) {
+        XMPPUserMemoryStorageObject *obj = friendList[i];
+        NSString *displayName = obj.displayName;
+        if ([displayName hasSuffix:xmppDomain]) {
+            NSRange range = [displayName rangeOfString:xmppDomain];
+            displayName = [displayName substringToIndex:range.location-1];
+        }
+        
+        if ([manager.xmppRooms containsObject:displayName]) {
+            [dataArr removeObject:obj];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

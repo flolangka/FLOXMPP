@@ -49,27 +49,22 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
 - (instancetype)initWithChatUser:(NSString *)userName chatViewWidth:(CGFloat)width
 {
     if (self = [super init]) {
-        //创建录音保存文件夹
-        NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
-        voiceRecordPath = [docPath stringByAppendingPathComponent:@"voiceRecord"];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:voiceRecordPath]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:voiceRecordPath withIntermediateDirectories:YES attributes:nil error:nil];
-        }
-        imageRecordPath = [docPath stringByAppendingPathComponent:@"imageRecord"];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:imageRecordPath]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:imageRecordPath withIntermediateDirectories:YES attributes:nil error:nil];
-        }
+        [self configChatMessageFileDirectories];
         
         self.cellModels = [[NSMutableArray alloc] init];
         self.chatUser = userName;
         self.chatViewWidth = width;
         
-        //加载最后的20条记录
-        NSArray *localRecordMessages = [[FLODataBaseEngin shareInstance] selectAllChatMessagesWithChatUser:_chatUser];
+        //加载聊天记录
+        NSArray *localRecordMessages = [[FLODataBaseEngin shareInstance] selectAllChatMessagesWithChatUser:userName];
         [self addCellModelsWithMessages:localRecordMessages];
         
         //设置接收消息操作
         [XMPPManager manager].receiveMessageBlock = ^(FLOChatMessageModel *msgModel){
+            if (![msgModel.messageFrom isEqualToString:_chatUser]) {
+                return;
+            }
+            
             id<MQCellModelProtocol> cellModel = [self cellModelWithChatMessageModel:msgModel];
             if (!cellModel) {
                 return;
@@ -80,6 +75,49 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     return self;
 }
 
+- (instancetype)initWithChatRoom:(NSString *)roomName chatViewWidth:(CGFloat)width
+{
+    if (self = [super init]) {
+        [self configChatMessageFileDirectories];
+        
+        self.cellModels = [[NSMutableArray alloc] init];
+        self.chatRoom = roomName;
+        self.chatViewWidth = width;
+        
+        //加载聊天记录
+        NSArray *localRecordMessages = [[FLODataBaseEngin shareInstance] selectAllChatMessagesWithChatRoom:roomName];
+        [self addCellModelsWithMessages:localRecordMessages];
+        
+        //设置接收消息操作
+        [XMPPManager manager].receiveMessageBlock = ^(FLOChatMessageModel *msgModel){
+            if (![msgModel.messageTo isEqualToString:_chatRoom]) {
+                return;
+            }
+            
+            id<MQCellModelProtocol> cellModel = [self cellModelWithChatMessageModel:msgModel];
+            if (!cellModel) {
+                return;
+            }
+            [self addCellModelAfterReceivedWithCellModel:cellModel];
+        };
+    }
+    return self;
+}
+
+//如果保存录音、图片的文件夹不存在就创建
+- (void)configChatMessageFileDirectories
+{
+    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
+    voiceRecordPath = [docPath stringByAppendingPathComponent:@"voiceRecord"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:voiceRecordPath]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:voiceRecordPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    imageRecordPath = [docPath stringByAppendingPathComponent:@"imageRecord"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:imageRecordPath]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:imageRecordPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+}
+
 #pragma mark - 保存ChatRecord
 - (void)saveChatRecord
 {
@@ -87,7 +125,8 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
         return;
     }
     NSString *timeStr = [NSString stringWithFormat:@"%f", [[[_cellModels lastObject] getCellDate] timeIntervalSince1970]];
-    FLOChatRecordModel *charRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": _chatUser,
+    FLOChatRecordModel *charRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": _chatUser ? : @"",
+                                                                                      @"chatRoom": _chatRoom ? : @"",
                                                                                       @"lastMessage": lastMessageBody,
                                                                                       @"lastTime": timeStr}];
     [[FLODataBaseEngin shareInstance] saveChatRecord:charRecord];
@@ -113,10 +152,11 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
 
 - (id<MQCellModelProtocol>)cellModelWithChatMessageModel:(FLOChatMessageModel *)msg
 {
+    NSString *myName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
     if ([msg.messageContent hasPrefix:Message_Prefix_Text]) {
         //文字
         MQTextMessage *message = [[MQTextMessage alloc] initWithContent:[self messageBodyWithMessageContent:msg.messageContent]];
-        if ([msg.messageFrom isEqualToString:_chatUser]) {
+        if (![msg.messageFrom isEqualToString:myName]) {
             message.fromType = MQChatMessageIncoming;
         }
         
@@ -128,7 +168,7 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     } else if ([msg.messageContent hasPrefix:Message_Prefix_Image]) {
         //图片
         MQImageMessage *message = [[MQImageMessage alloc] initWithImage:[UIImage imageWithContentsOfFile:[imageRecordPath stringByAppendingPathComponent:[self messageBodyWithMessageContent:msg.messageContent]]]];
-        if ([msg.messageFrom isEqualToString:_chatUser]) {
+        if (![msg.messageFrom isEqualToString:myName]) {
             message.fromType = MQChatMessageIncoming;
         }
         
@@ -141,7 +181,7 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
         //声音
         NSData *wavData = [NSData dataWithContentsOfFile:[voiceRecordPath stringByAppendingPathComponent:[self messageBodyWithMessageContent:msg.messageContent]]];
         MQVoiceMessage *message = [[MQVoiceMessage alloc] initWithVoiceData:wavData];
-        if ([msg.messageFrom isEqualToString:_chatUser]) {
+        if (![msg.messageFrom isEqualToString:myName]) {
             message.fromType = MQChatMessageIncoming;
         }
         
@@ -163,6 +203,9 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
 
 #pragma mark - 收到新消息
 - (void)addCellModelAfterReceivedWithCellModel:(id<MQCellModelProtocol>)cellModel {
+    
+    
+    
     [self addMessageDateCellAtLastWithCurrentCellModel:cellModel];
     [self didReceiveMessageWithCellModel:cellModel];
 }
@@ -219,7 +262,12 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     lastMessageBody = content;
     NSString *prefix = [Message_Prefix_Text stringByAppendingString:[NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]]];
     
-    [[XMPPManager manager] sendTextMessage:[prefix stringByAppendingString:content] toUser:_chatUser];
+    if (_chatRoom && _chatRoom.length > 0) {
+        [[XMPPManager manager] sendTextMessage:[prefix stringByAppendingString:content] toUser:[@"[room]" stringByAppendingString:_chatRoom]];
+    } else {
+        [[XMPPManager manager] sendTextMessage:[prefix stringByAppendingString:content] toUser:_chatUser];
+    }
+    
     
     //在线时发送成功
     if (![[XMPPManager manager].xmppStream isAuthenticated]) {
@@ -242,11 +290,17 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     
     //发送
     lastMessageBody = @"[图片]";
-    NSString *imageFileName = [_chatUser stringByAppendingFormat:@"%f.jpg", [[NSDate date] timeIntervalSince1970]];
+    NSString *imageFileName = [[[NSUserDefaults standardUserDefaults] stringForKey:kUserName] stringByAppendingFormat:@"%f.jpg", [[NSDate date] timeIntervalSince1970]];
     [UIImageJPEGRepresentation(image, 1.0) writeToFile:[imageRecordPath stringByAppendingPathComponent:imageFileName] atomically:YES];
     
     NSString *prefix = [Message_Prefix_Image stringByAppendingString:[NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]]];
-    [[XMPPManager manager] sendImageMessage:[prefix stringByAppendingString:imageFileName] image:image toUser:_chatUser];
+    
+    if (_chatRoom && _chatRoom.length > 0) {
+        [[XMPPManager manager] sendImageMessage:[prefix stringByAppendingString:imageFileName] image:image toUser:[@"[room]" stringByAppendingString:_chatRoom]];
+    } else {
+        [[XMPPManager manager] sendImageMessage:[prefix stringByAppendingString:imageFileName] image:image toUser:_chatUser];
+    }
+    
     
     //模仿发送成功
     if (![[XMPPManager manager].xmppStream isAuthenticated]) {
@@ -265,7 +319,7 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
 - (void)sendVoiceMessageWithAMRFilePath:(NSString *)filePath
 {
     //将AMR格式转换成WAV格式，以便使iPhone能播放
-    NSString *voiceFileName = [_chatUser stringByAppendingFormat:@"%f.wav", [[NSDate date] timeIntervalSince1970]];
+    NSString *voiceFileName = [[[NSUserDefaults standardUserDefaults] stringForKey:kUserName] stringByAppendingFormat:@"%f.wav", [[NSDate date] timeIntervalSince1970]];
     [VoiceConverter amrToWav:filePath wavSavePath:[voiceRecordPath stringByAppendingPathComponent:voiceFileName]];
     [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
     
@@ -290,7 +344,12 @@ static NSInteger const kMQChatMessageMaxTimeInterval = 60;
     //声音发送
     lastMessageBody = @"[语音]";
     NSString *prefix = [Message_Prefix_Voice stringByAppendingString:[NSString stringWithFormat:@"[%f]", [[NSDate date] timeIntervalSince1970]]];
-    [[XMPPManager manager] sendVoiceMessage:[prefix stringByAppendingString:voiceFileName] WavData:wavData toUser:_chatUser];
+    
+    if (_chatRoom && _chatRoom.length > 0) {
+        [[XMPPManager manager] sendVoiceMessage:[prefix stringByAppendingString:voiceFileName] WavData:wavData toUser:[@"[room]" stringByAppendingString:_chatRoom]];
+    } else {
+        [[XMPPManager manager] sendVoiceMessage:[prefix stringByAppendingString:voiceFileName] WavData:wavData toUser:_chatUser];
+    }
     
     //模仿发送成功
     if (![[XMPPManager manager].xmppStream isAuthenticated]) {

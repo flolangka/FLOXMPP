@@ -16,7 +16,7 @@ static NSString * const xmppResource = @"iOS";
 static NSUInteger xmppPort = 5222;
 static NSString * waitSendMessagePath;
 
-@interface XMPPManager()<XMPPStreamDelegate, XMPPRosterMemoryStorageDelegate>
+@interface XMPPManager()<XMPPStreamDelegate, XMPPRosterMemoryStorageDelegate,XMPPRoomDelegate>
 
 {
     //连接
@@ -34,6 +34,10 @@ static NSString * waitSendMessagePath;
     //更新好友列表
     void(^fetchRosterSuccessBlock)();
     void(^fetchRosterFailureBlock)();
+    
+    //更新聊天室列表
+    void(^fetchRoomSuccessBlock)();
+    
     
     NSString *xmppPassword;
     
@@ -189,6 +193,9 @@ static XMPPManager *manager;
     XMPPPresence *presence = [XMPPPresence presenceWithType:@"available"];
     [_xmppStream sendElement:presence];
     
+    //获取聊天室列表
+    [self fetchXMPPRoomListSuccess:nil];
+    
     //登录成功后将未成功发送消息发送出去
     if (waitSendMessages && waitSendMessages.count>0) {
         for (NSXMLElement *message in waitSendMessages) {
@@ -285,6 +292,8 @@ static XMPPManager *manager;
     NSString *presenceFromUser = [[presence from] user];
     
     NSLog(@"收到好友请求>>%@", presenceFromUser);
+    
+    //排除已存在好友
     if (_xmppMyFriends) {
         for (XMPPUserMemoryStorageObject *user in _xmppMyFriends) {
             if ([user.jid.user isEqualToString:presenceFromUser]) {
@@ -293,23 +302,37 @@ static XMPPManager *manager;
         }
     }
     
+    //排除自己、已有申请记录的
     if ([presenceFromUser isEqualToString:myUsername] || [_friendRequests containsObject:presenceFromUser]) {
         return;
     }
+    
+    //排除聊天室的邀请
+    if ([[[presence from] full] containsString:[NSString stringWithFormat:@"@conference.%@", xmppDomain]]) {
+        if (_didJoinRooms) {
+            [_didJoinRooms addObject:presenceFromUser];
+        } else {
+            self.didJoinRooms = [NSMutableArray arrayWithObject:presenceFromUser];
+        }
+        return;
+    }
+    
     [_friendRequests addObject:presenceFromUser];
     if (_receiveFriendRequestBlock) {
         _receiveFriendRequestBlock(self);
     }
 }
 
-#pragma mark 收消息
+#pragma mark 收到单聊消息
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-    NSLog(@"XMPP>>>>收到消息>>%@", [message body]);
-    
     if ([message isErrorMessage]) {
         NSLog(@"收到一条错误消息>>%@", [message body]);
+    } if ([message.type isEqualToString:@"groupchat"]) {
+        NSLog(@"收到一条群聊消息>>%@", [message body]);
     } else {
+        NSLog(@"XMPP>>>>收到消息>>%@", [message body]);
+        
         NSString *messageBody = [message body];
         NSString *sourceUser = [message.fromStr substringToIndex:[message.fromStr rangeOfString:@"@"].location];
         
@@ -349,6 +372,7 @@ static XMPPManager *manager;
             
         }
         FLOChatRecordModel *chatRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": sourceUser,
+                                                                                          @"chatRoom": @"",
                                                                                           @"lastMessage": chatRecordMsgBody,
                                                                                           @"lastTime": timeStr}];
         [[FLODataBaseEngin shareInstance] saveChatRecord:chatRecord];
@@ -386,18 +410,24 @@ static XMPPManager *manager;
     if ([_xmppStream isAuthenticated]) {
         [_xmppStream sendElement:message];
     } else {
-        
+        [waitSendMessages addObject:message];
     }
 
     FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": _xmppStream.myJID.user,
                                                                                           @"messageTo": user,
                                                                                           @"messageContent": mes}];
     [[FLODataBaseEngin shareInstance] insertChatMessages:@[messageModel]];
+    
+    //saveChatRecord在聊天页面退出时保存
 }
 
 - (void)sendTextMessage:(NSString *)mes toUser:(NSString *)user
 {
-    [self sendMessage:mes attachment:nil toUser:user];
+    if ([user hasPrefix:@"[room]"]) {
+        [self sendRoomMessage:mes attachment:nil toRoom:[user substringFromIndex:6]];
+    } else {
+        [self sendMessage:mes attachment:nil toUser:user];
+    }
 }
 
 - (void)sendImageMessage:(NSString *)mes image:(UIImage *)image toUser:(NSString *)user
@@ -408,7 +438,11 @@ static XMPPManager *manager;
     NSXMLElement *imgAttachement = [NSXMLElement elementWithName:@"attachment"];
     [imgAttachement setStringValue:imgStr];
     
-    [self sendMessage:mes attachment:imgAttachement toUser:user];
+    if ([user hasPrefix:@"[room]"]) {
+        [self sendRoomMessage:mes attachment:imgAttachement toRoom:[user substringFromIndex:6]];
+    } else {
+        [self sendMessage:mes attachment:imgAttachement toUser:user];
+    }
 }
 
 - (void)sendVoiceMessage:(NSString *)mes WavData:(NSData *)wavData toUser:(NSString *)user
@@ -418,7 +452,216 @@ static XMPPManager *manager;
     NSXMLElement *voiceAttachement = [NSXMLElement elementWithName:@"attachment"];
     [voiceAttachement setStringValue:voiceStr];
     
-    [self sendMessage:mes attachment:voiceAttachement toUser:user];
+    if ([user hasPrefix:@"[room]"]) {
+        [self sendRoomMessage:mes attachment:voiceAttachement toRoom:[user substringFromIndex:6]];
+    } else {
+        [self sendMessage:mes attachment:voiceAttachement toUser:user];
+    }
+}
+
+#pragma mark - 群聊
+#pragma mark - 获取群组列表
+- (void)fetchXMPPRoomListSuccess:(void (^)())success
+{
+    if (success) {
+        fetchRoomSuccessBlock = success;
+    }
+    
+    XMPPJID *servrJID = [XMPPJID jidWithString:[NSString stringWithFormat:@"conference.%@", xmppDomain]];
+    XMPPIQ *iq = [XMPPIQ iqWithType:@"get" to:servrJID];
+    [iq addAttributeWithName:@"from" stringValue:[_xmppStream myJID].full];
+    NSXMLElement *query = [NSXMLElement elementWithName:@"query"];
+    [query addAttributeWithName:@"xmlns" stringValue:@"http://jabber.org/protocol/disco#items"];
+    [iq addChild:query];
+    [_xmppStream sendElement:iq];
+}
+
+//获取聊天室成功
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq{
+    
+    if ([[[iq attributeForName:@"from"] stringValue] isEqualToString:[NSString stringWithFormat:@"conference.%@", xmppDomain]]) {
+        
+        NSArray *groupList = [iq.childElement elementsForName:@"item"];
+        //<item jid="xmpproom1@conference.192.168.1.2" name="xmpproom1"></item>
+        
+        NSMutableArray *groupNames = [NSMutableArray array];
+        for (NSXMLElement *node in groupList) {
+            [groupNames addObject:[[node attributeForName:@"name"] stringValue]];
+        }
+        NSLog(@"聊天室列表>>>>%@", groupNames);
+        self.xmppRooms = groupNames;
+        
+        if (fetchRoomSuccessBlock) {
+            fetchRoomSuccessBlock();
+        }
+    }
+    return YES;
+}
+
+#pragma mark - 加入或创建群聊
+- (void)joinOrCreateXMPPRoom:(NSString *)roomName
+{
+    XMPPRoomMemoryStorage * _roomMemory = [[XMPPRoomMemoryStorage alloc]init];
+    NSString *roomID = [NSString stringWithFormat:@"%@@conference.%@", roomName, xmppDomain];
+    XMPPJID * roomJID = [XMPPJID jidWithString:roomID];
+    XMPPRoom* xmppRoom = [[XMPPRoom alloc] initWithRoomStorage:_roomMemory
+                                                           jid:roomJID
+                                                 dispatchQueue:dispatch_get_main_queue()];
+    [xmppRoom activate:self.xmppStream];
+    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [xmppRoom joinRoomUsingNickname:_xmppStream.myJID.user
+                            history:nil
+                           password:nil];
+}
+
+- (void)xmppRoomDidCreate:(XMPPRoom *)sender{
+    NSLog(@"创建聊天室成功>>>>%@", [sender description]);
+    
+    [self configNewRoom:sender];
+}
+
+- (void)xmppRoomDidJoin:(XMPPRoom *)sender{
+    NSLog(@"加入聊天室成功>>>>%@", [sender description]);
+    
+    if (fetchRoomSuccessBlock) {
+        fetchRoomSuccessBlock();
+    }
+}
+
+//配置新聊天室
+-(void)configNewRoom:(XMPPRoom *)room{
+    NSXMLElement *x = [NSXMLElement elementWithName:@"x" xmlns:@"jabber:x:data"];
+    NSXMLElement *p;
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var" stringValue:@"muc#roomconfig_persistentroom"];//永久房间
+    [p addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var" stringValue:@"muc#roomconfig_maxusers"];//最大用户
+    [p addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1000"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var" stringValue:@"muc#roomconfig_changesubject"];//允许改变主题
+    [p addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var" stringValue:@"muc#roomconfig_publicroom"];//公共房间
+    [p addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var" stringValue:@"muc#roomconfig_allowinvites"];//允许邀请
+    [p addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
+    [x addChild:p];
+    
+    /*
+     p = [NSXMLElement elementWithName:@"field" ];
+     [p addAttributeWithName:@"var" stringValue:@"muc#roomconfig_roomname"];//房间名称
+     [p addChild:[NSXMLElement elementWithName:@"value" stringValue:self.roomTitle]];
+     [x addChild:p];
+     */
+    
+    NSLog(@"配置聊天室");
+    [room configureRoomUsingOptions:x];
+}
+
+
+#pragma mark - 收到群聊消息
+//<message xmlns="jabber:client" type="groupchat" to="flo@192.168.1.2/iOS" from="xmpproom1@conference.192.168.1.2/flo"><body>[0][1452049453.371119]room1</body></message>
+-(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID
+{
+    NSString *messageBody = [message body];
+    
+    NSString *chatRoom = [message.fromStr substringToIndex:[message.fromStr rangeOfString:@"@"].location];
+    NSString *lastStr = [messageBody substringFromIndex:4];
+    NSRange range = [lastStr rangeOfString:@"]"];
+    NSString *timeStr = [lastStr substringToIndex:range.location];
+    
+    //检查是否是重复消息
+    NSString *sourceUser = [message.fromStr substringFromIndex:[message.fromStr rangeOfString:@"/"].location+1];
+    FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": sourceUser,
+                                                                                          @"messageTo": chatRoom,
+                                                                                          @"messageContent": messageBody}];
+    if ([[FLODataBaseEngin shareInstance] messageIsExits:messageModel]) {
+        return;
+    }
+    
+    //保存聊天记录
+    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
+    NSString *chatRecordMsgBody = @"";
+    if ([messageBody hasPrefix:Message_Prefix_Text]) {
+        chatRecordMsgBody = [lastStr substringFromIndex:range.location+1];
+    } else if ([messageBody hasPrefix:Message_Prefix_Image]) {
+        chatRecordMsgBody = @"[图片]";
+        
+        //保存图片到文件夹
+        for (DDXMLNode *node in message.children) {
+            if ([node.name isEqualToString:@"attachment"]) {
+                NSData *imageData = [[NSData alloc] initWithBase64EncodedString:node.stringValue options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                
+                NSString *imageRecordPath = [docPath stringByAppendingPathComponent:@"imageRecord"];
+                [imageData writeToFile:[imageRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
+            }
+        }
+        
+    } else if ([messageBody hasPrefix:Message_Prefix_Voice]) {
+        chatRecordMsgBody = @"[语音]";
+        
+        //保存语音到文件夹
+        for (DDXMLNode *node in message.children) {
+            if ([node.name isEqualToString:@"attachment"]) {
+                NSString *voiceRecordPath = [docPath stringByAppendingPathComponent:@"voiceRecord"];
+                NSData *wavData = [[NSData alloc] initWithBase64EncodedString:node.stringValue options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                [wavData writeToFile:[voiceRecordPath stringByAppendingPathComponent:[lastStr substringFromIndex:range.location+1]] atomically:YES];
+            }
+        }
+        
+    }
+    
+    FLOChatRecordModel *chatRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": @"",
+                                                                                      @"chatRoom": chatRoom,
+                                                                                      @"lastMessage": chatRecordMsgBody,
+                                                                                      @"lastTime": timeStr}];
+    [[FLODataBaseEngin shareInstance] saveChatRecord:chatRecord];
+    
+    //保存消息记录
+    [[FLODataBaseEngin shareInstance] insertChatMessages:@[messageModel]];
+    
+    if (_receiveMessageBlock) {
+        _receiveMessageBlock(messageModel);
+    }
+}
+
+#pragma mark 发送群聊消息
+-(void)sendRoomMessage:(NSString*)messageStr attachment:(NSXMLElement *)attachment toRoom:(NSString *)roomName
+{
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:messageStr];
+    
+    NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
+    [message addAttributeWithName:@"type" stringValue:@"groupchat"];
+    NSString *to = [NSString stringWithFormat:@"%@@conference.%@", roomName, xmppDomain];
+    [message addAttributeWithName:@"to" stringValue:to];
+    
+    [message addChild:body];
+    if (attachment) {
+        [message addChild:attachment];
+    }
+    
+    //如果在线就发送,不在线就先存储
+    if ([_xmppStream isAuthenticated]) {
+        [_xmppStream sendElement:message];
+    } else {
+        [waitSendMessages addObject:message];
+    }
+    
+    FLOChatMessageModel *messageModel = [[FLOChatMessageModel alloc] initWithDictionary:@{@"messageFrom": _xmppStream.myJID.user,
+                                                                                          @"messageTo": roomName,
+                                                                                          @"messageContent": messageStr}];
+    [[FLODataBaseEngin shareInstance] insertChatMessages:@[messageModel]];
 }
 
 
