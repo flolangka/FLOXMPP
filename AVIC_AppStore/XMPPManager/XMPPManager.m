@@ -11,7 +11,6 @@
 #import "FLOChatRecordModel.h"
 #import "FLOChatMessageModel.h"
 
-static NSString * const xmppHost = @"192.168.1.2";
 static NSString * const xmppResource = @"iOS";
 static NSUInteger xmppPort = 5222;
 static NSString * waitSendMessagePath;

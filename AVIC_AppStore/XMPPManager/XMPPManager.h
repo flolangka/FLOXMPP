@@ -10,7 +10,8 @@
 #import "XMPPComment.h"
 @class FLOChatMessageModel;
 
-static NSString * const xmppDomain = @"192.168.1.2";    //需要与host一致否则在登录时可能会失败
+static NSString * const xmppHost = @"192.168.1.2";      //服务器地址
+static NSString * const xmppDomain = @"192.168.1.2";    //服务器名称
 
 @interface XMPPManager : NSObject
 
