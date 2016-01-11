@@ -327,10 +327,10 @@ static XMPPManager *manager;
 {
     if ([message isErrorMessage]) {
         NSLog(@"收到一条错误消息>>%@", [message body]);
-    } if ([message.type isEqualToString:@"groupchat"]) {
+    } else if ([message.type isEqualToString:@"groupchat"]) {
         NSLog(@"收到一条群聊消息>>%@", [message body]);
-    } else {
-        NSLog(@"XMPP>>>>收到消息>>%@", [message body]);
+    } else if ([message.type isEqualToString:@"chat"]) {
+        NSLog(@"收到一条单聊消息>>%@", [message body]);
         
         NSString *messageBody = [message body];
         NSString *sourceUser = [message.fromStr substringToIndex:[message.fromStr rangeOfString:@"@"].location];
@@ -369,7 +369,11 @@ static XMPPManager *manager;
                 }
             }
             
+        } else {
+            NSLog(@"收到一条消息>>>>%@", message.body);
+            return;
         }
+        
         FLOChatRecordModel *chatRecord = [[FLOChatRecordModel alloc] initWithDictionary:@{@"chatUser": sourceUser,
                                                                                           @"chatRoom": @"",
                                                                                           @"lastMessage": chatRecordMsgBody,
@@ -386,6 +390,14 @@ static XMPPManager *manager;
         if (_receiveMessageBlock) {
             _receiveMessageBlock(messageModel);
         }
+    } else {
+        NSLog(@"收到一条消息>>>>%@", message.body);
+        
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        localNotification.alertBody = message.body;
+        localNotification.fireDate = [NSDate date];
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     }
 }
 

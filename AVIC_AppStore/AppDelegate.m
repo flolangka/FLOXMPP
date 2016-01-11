@@ -17,6 +17,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //注册本地通知
+    UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeBadge | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
     
     NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
     NSString *userName = [UD stringForKey:kUserName];
@@ -38,6 +42,10 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    UIBackgroundTaskIdentifier ID = [application beginBackgroundTaskWithExpirationHandler:^{
+        [application endBackgroundTask:ID];
+    }];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
