@@ -117,27 +117,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)logoutAction:(UIBarButtonItem *)sender {
-    [manager logoutAndDisconnect];
-    
-    NSUserDefaults *UD = [NSUserDefaults standardUserDefaults];
-    [UD setObject:@"" forKey:kUserName];
-    [UD synchronize];
-    
-    //删除聊天记录
-    [[FLODataBaseEngin shareInstance] resetDatabase];
-    
-    //删除图片、语音数据
-    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES)[0];
-    [[NSFileManager defaultManager] removeItemAtPath:[docPath stringByAppendingPathComponent:@"voiceRecord"] error:nil];
-    [[NSFileManager defaultManager] removeItemAtPath:[docPath stringByAppendingPathComponent:@"imageRecord"] error:nil];
-    
-    //跳转到主页面
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    keyWindow.rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SBIDLoginVC"];
-    [keyWindow makeKeyAndVisible];
-}
-
 - (IBAction)FLEXAction:(UIBarButtonItem *)sender {
     [[FLEXManager sharedManager] showExplorer];
 }
