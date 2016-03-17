@@ -130,6 +130,9 @@ static XMPPManager *manager;
 #pragma mark - 初始化时配置xmpp流
 - (void)configXMPPStream
 {
+    xmppHost = [[NSUserDefaults standardUserDefaults] objectForKey:kXMPPHost];
+    xmppDomain = [[NSUserDefaults standardUserDefaults] objectForKey:kXMPPDomain];
+    
     self.xmppStream = [[XMPPStream alloc] init];
     
     //读取未发送消息集合
@@ -165,6 +168,14 @@ static XMPPManager *manager;
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     xmppMessageArchiving = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:xmppMessageArchivingCoreDataStorage dispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 9)];
     [xmppMessageArchiving activate:_xmppStream];
+}
+
+//当重新设置服务器后刷新XMPPStream
+- (void)refreshXMPPStream
+{
+    self.xmppStream = nil;
+    
+    [self configXMPPStream];
 }
 
 #pragma mark XMPPStream代理-连接

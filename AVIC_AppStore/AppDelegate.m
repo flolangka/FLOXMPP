@@ -26,7 +26,16 @@
     NSString *userName = [UD stringForKey:kUserName];
     NSString *password = [UD stringForKey:kPassWord];
     
-    if (!userName || !password || userName.length < 1 || password.length < 1) {
+    NSString *host = [UD stringForKey:kXMPPHost];
+    NSString *domain = [UD stringForKey:kXMPPDomain];
+    
+    //是否配置了服务器
+    BOOL xmppServiceDidConfig = host && domain && host.length > 0 && domain.length > 0;
+    
+    //是否有登陆记录（重新配置服务器时登陆记录清空）
+    BOOL xmppUserDidAuthorization = userName && password && userName.length > 0 && password.length > 0;
+    
+    if (!xmppServiceDidConfig || !xmppUserDidAuthorization) {
         self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"SBIDLoginVC"];
         [self.window makeKeyAndVisible];
     }

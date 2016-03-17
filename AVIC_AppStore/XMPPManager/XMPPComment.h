@@ -19,6 +19,8 @@
 static NSString * const kUserName = @"xmppUserNaem";
 static NSString * const kPassWord = @"xmppPassword";
 
+static NSString * const kXMPPHost   = @"xmppHost";
+static NSString * const kXMPPDomain = @"xmppDomain";
 
 static NSString * const Message_Prefix_Text  = @"[0]";
 static NSString * const Message_Prefix_Voice = @"[1]";

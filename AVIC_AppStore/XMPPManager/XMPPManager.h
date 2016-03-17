@@ -10,8 +10,8 @@
 #import "XMPPComment.h"
 @class FLOChatMessageModel;
 
-static NSString * const xmppHost = @"192.168.1.2";      //服务器地址
-static NSString * const xmppDomain = @"192.168.1.2";    //服务器名称
+NSString * xmppHost;
+NSString * xmppDomain;
 
 @interface XMPPManager : NSObject
 
@@ -28,6 +28,9 @@ static NSString * const xmppDomain = @"192.168.1.2";    //服务器名称
 @property (nonatomic, copy) void (^receiveMessageBlock)(FLOChatMessageModel *);
 
 + (instancetype)manager;
+
+//设置服务器后刷新
+- (void)refreshXMPPStream;
 
 //登录上线
 - (void)autoAuthorizationSuccess:(void(^)())success failure:(void(^)(NSString *))faiure;

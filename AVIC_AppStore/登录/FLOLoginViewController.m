@@ -23,8 +23,60 @@
     [super viewDidLoad];
 }
 
+- (void)configXMPPService
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"设置服务器" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:kXMPPHost];
+    
+        if (host && host.length > 0) {
+            textField.text = host;
+        } else {
+            textField.placeholder = @"服务器IP";
+        }
+    }];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        NSString *domain = [[NSUserDefaults standardUserDefaults] objectForKey:kXMPPDomain];
+        
+        if (domain && domain.length > 0) {
+            textField.text = domain;
+        } else {
+            textField.placeholder = @"服务器名称";
+        }
+    }];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        if (alertController.textFields[0].text.length > 0) {
+            [[NSUserDefaults standardUserDefaults] setObject:alertController.textFields[0].text forKey:kXMPPHost];
+        }
+        
+        if (alertController.textFields[1].text.length > 0) {
+            [[NSUserDefaults standardUserDefaults] setObject:alertController.textFields[1].text forKey:kXMPPDomain];
+        }
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        //设置服务器后刷新xmppstream
+        [[XMPPManager manager] refreshXMPPStream];
+    }]];
+    
+    [self presentViewController:alertController animated:NO completion:nil];
+}
+
+- (IBAction)configAction:(UIButton *)sender {
+    [self configXMPPService];
+}
+
 - (IBAction)loginAction:(UIButton *)sender {
     [self hideKeyboard];
+    
+    NSString *host = [[NSUserDefaults standardUserDefaults] objectForKey:kXMPPHost];
+    NSString *domain = [[NSUserDefaults standardUserDefaults] objectForKey:kXMPPDomain];
+    if (!host || !domain || host.length < 1 || domain.length < 1) {
+        [self configXMPPService];
+        return;
+    }
     
     if (_userNameTF.text.length < 1) {
         [MBProgressTool showPromptViewInView:self.view WithTitle:@"请输入用户名"];
